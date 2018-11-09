@@ -1,8 +1,8 @@
-package io.microdrive.trip.tomtom.model;
+package io.microdrive.trip.routing;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor

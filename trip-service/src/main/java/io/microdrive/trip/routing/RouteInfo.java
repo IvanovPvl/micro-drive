@@ -1,12 +1,9 @@
-package io.microdrive.trip.info;
+package io.microdrive.trip.routing;
+
+import lombok.Data;
+import lombok.Builder;
 
 import java.util.List;
-
-import lombok.Builder;
-import lombok.Data;
-
-import io.microdrive.trip.tomtom.model.Point;
-
 
 @Data
 @Builder
@@ -15,5 +12,4 @@ public class RouteInfo {
     private int lengthInMeters;
     private int travelTimeInSeconds;
     private int trafficDelayInSeconds;
-    private double price;
 }

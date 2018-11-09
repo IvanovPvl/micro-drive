@@ -1,4 +1,4 @@
-package io.microdrive.trip.tomtom;
+package io.microdrive.trip.routing.tomtom;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

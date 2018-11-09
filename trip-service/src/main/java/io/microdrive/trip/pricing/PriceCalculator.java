@@ -1,7 +1,7 @@
 package io.microdrive.trip.pricing;
 
-import io.microdrive.trip.tomtom.model.CalculateRouteResponse;
+import io.microdrive.trip.routing.RouteInfo;
 
 public interface PriceCalculator {
-    double calculate(CalculateRouteResponse response);
+    double calculate(RouteInfo route);
 }

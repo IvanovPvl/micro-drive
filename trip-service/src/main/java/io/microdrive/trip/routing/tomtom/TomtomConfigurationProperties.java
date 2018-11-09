@@ -1,11 +1,10 @@
-package io.microdrive.trip.tomtom;
+package io.microdrive.trip.routing.tomtom;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties("tomtom.client")
+@ConfigurationProperties("routing.tomtom.client")
 public class TomtomConfigurationProperties {
     private String apiKey;
     private String baseUrl;

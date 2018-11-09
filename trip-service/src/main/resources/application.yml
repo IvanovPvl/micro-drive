@@ -1,10 +1,11 @@
-tomtom:
-  client:
-    apiKey: ${TOMTOM_CLIENT_API_KEY}
-    baseUrl: https://api.tomtom.com/
-    apiVersion: 1
-    contentType: json
-    travelMode: car
+routing:
+  tomtom:
+    client:
+      apiKey: ${TOMTOM_CLIENT_API_KEY}
+      baseUrl: https://api.tomtom.com/
+      apiVersion: 1
+      contentType: json
+      travelMode: car
 
 pricing:
   priceForKm: 0.15

@@ -1,7 +1,6 @@
 package io.microdrive.trip.pricing;
 
-import io.microdrive.trip.tomtom.model.Route;
-import io.microdrive.trip.tomtom.model.CalculateRouteResponse;
+import io.microdrive.trip.routing.RouteInfo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,8 +13,7 @@ public class DistancePriceCalculator implements PriceCalculator {
     }
 
     @Override
-    public double calculate(CalculateRouteResponse response) {
-        Route route = response.getRoutes().get(0);
-        return route.getSummary().getLengthInMeters() / 1000.0 * config.getPriceForKm();
+    public double calculate(RouteInfo route) {
+        return route.getLengthInMeters() / 1000.0 * config.getPriceForKm();
     }
 }
