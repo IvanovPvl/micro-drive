@@ -1,0 +1,11 @@
+tomtom:
+  client:
+    apiKey: ${TOMTOM_CLIENT_API_KEY}
+    baseUrl: https://api.tomtom.com/
+    apiVersion: 1
+    contentType: json
+    travelMode: car
+
+logging:
+  level:
+    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
