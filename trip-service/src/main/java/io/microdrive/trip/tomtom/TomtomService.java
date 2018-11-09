@@ -20,13 +20,7 @@ public class TomtomService {
         this.config = config;
     }
 
-    public Mono<CalculateRouteResponse> calculateRoute(Point from, Point to) {
-        String locations = String.format(Locale.US, "%.6f,%.6f:%.6f,%.6f",
-                from.getLatitude(),
-                from.getLongitude(),
-                to.getLatitude(),
-                to.getLongitude());
-
+    public Mono<CalculateRouteResponse> calculateRoute(String locations) {
         String path = String.format("/routing/%s/%s/%s/%s",
                 config.getApiVersion(),
                 "calculateRoute",
@@ -40,5 +34,15 @@ public class TomtomService {
                         .build())
                 .exchange()
                 .flatMap(r -> r.bodyToMono(CalculateRouteResponse.class));
+    }
+
+    public Mono<CalculateRouteResponse> calculateRoute(Point from, Point to) {
+        String locations = String.format(Locale.US, "%.6f,%.6f:%.6f,%.6f",
+                from.getLatitude(),
+                from.getLongitude(),
+                to.getLatitude(),
+                to.getLongitude());
+
+        return calculateRoute(locations);
     }
 }

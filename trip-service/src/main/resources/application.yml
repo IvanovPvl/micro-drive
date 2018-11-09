@@ -6,6 +6,9 @@ tomtom:
     contentType: json
     travelMode: car
 
+pricing:
+  priceForKm: 0.15
+
 logging:
   level:
     org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
