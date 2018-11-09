@@ -23,10 +23,7 @@ public class EndpointController {
 
     @GetMapping("/{locations}")
     public Mono<TripInfo> index(@PathVariable String locations) {
-        return routeProvider.calculateRoute(locations)
-                .flatMap(route -> {
-                    TripInfo info = new TripInfo(route, priceCalculator.calculate(route));
-                    return Mono.just(info);
-                });
+        return Mono.from(routeProvider.calculateRoute(locations))
+                .map(route -> new TripInfo(route, priceCalculator.calculate(route)));
     }
 }

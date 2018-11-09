@@ -39,7 +39,7 @@ public class TomtomRouteProvider implements RouteProvider {
                         .build())
                 .exchange()
                 .flatMap(r -> r.bodyToMono(CalculateRouteResponse.class))
-                .flatMap(r -> Mono.just(convert(r)));
+                .map(this::convert);
     }
 
     public Mono<RouteInfo> calculateRoute(Point from, Point to) {
