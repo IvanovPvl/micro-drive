@@ -1,3 +1,12 @@
+spring:
+  data:
+    mongodb:
+      database: trip
+      host: localhost
+      port: 27017
+      username: trip
+      password: password
+
 routing:
   tomtom:
     client:

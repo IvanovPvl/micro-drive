@@ -23,12 +23,15 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url "http://repo.spring.io/plugins-release/" }
 }
 
 dependencies {
+    final MONGODB_REACTIVE_VERSION = '2.0.0.M1'
+
 	implementation('org.springframework.boot:spring-boot-starter-web')
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-//    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${MONGODB_REACTIVE_VERSION}")
 
     compileOnly('org.projectlombok:lombok')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')

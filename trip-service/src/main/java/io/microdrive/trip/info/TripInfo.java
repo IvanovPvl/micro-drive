@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.microdrive.trip.routing.RouteInfo;
 
-
 @Data
 @Builder
 @AllArgsConstructor
