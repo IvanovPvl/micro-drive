@@ -46,8 +46,13 @@ public class TripController {
         return Mono.from(mono);
     }
 
+    @GetMapping("/{tripId}")
+    public Mono<TripInfo> getTripInfo(@PathVariable String tripId) {
+        return tripInfoRepo.findById(tripId);
+    }
+
     @GetMapping("/{tripId}/points")
-    public Flux<Point> show(@PathVariable String tripId) {
+    public Flux<Point> points(@PathVariable String tripId) {
         return pointRepo.findAllByTripId(tripId);
     }
 
