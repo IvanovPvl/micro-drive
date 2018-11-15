@@ -1,18 +1,37 @@
-package io.microdrive.trip.api;
+package io.microdrive.trip.api.web;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import io.microdrive.trip.api.domain.Point;
+import io.microdrive.trip.api.domain.TripInfo;
+import io.microdrive.trip.routing.RouteProvider;
+import io.microdrive.trip.pricing.PriceCalculator;
+import io.microdrive.trip.api.data.PointRepository;
 
 @RestController
 @RequestMapping("/trip")
 public class TripController {
 
+    private final RouteProvider routeProvider;
+    private final PriceCalculator priceCalculator;
     private final PointRepository pointRepo;
 
-    public TripController(PointRepository pointRepo) {
+    public TripController(RouteProvider routeProvider,
+                          PriceCalculator priceCalculator,
+                          PointRepository pointRepo) {
+        this.routeProvider = routeProvider;
+        this.priceCalculator = priceCalculator;
         this.pointRepo = pointRepo;
+    }
+
+    @GetMapping("/{locations}")
+    public Mono<TripInfo> index(@PathVariable String locations) {
+        return Mono.from(routeProvider.calculateRoute(locations))
+                .map(route -> new TripInfo(route, priceCalculator.calculate(route)));
     }
 
     @GetMapping("/{tripId}/points")

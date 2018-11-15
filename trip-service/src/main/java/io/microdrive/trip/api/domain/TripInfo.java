@@ -1,4 +1,4 @@
-package io.microdrive.trip.info;
+package io.microdrive.trip.api.domain;
 
 import lombok.Data;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import io.microdrive.trip.routing.RouteInfo;
 @Data
 @Builder
 @AllArgsConstructor
-class TripInfo {
+public class TripInfo {
     @JsonProperty("route")
     private RouteInfo routeInfo;
 
