@@ -11,6 +11,7 @@ import io.microdrive.trip.api.domain.TripInfo;
 import io.microdrive.trip.routing.RouteProvider;
 import io.microdrive.trip.pricing.PriceCalculator;
 import io.microdrive.trip.api.data.PointRepository;
+import io.microdrive.trip.api.data.TripInfoRepository;
 
 @RestController
 @RequestMapping("/trip")
@@ -19,19 +20,30 @@ public class TripController {
     private final RouteProvider routeProvider;
     private final PriceCalculator priceCalculator;
     private final PointRepository pointRepo;
+    private final TripInfoRepository tripInfoRepo;
 
     public TripController(RouteProvider routeProvider,
                           PriceCalculator priceCalculator,
-                          PointRepository pointRepo) {
+                          PointRepository pointRepo,
+                          TripInfoRepository tripInfoRepo) {
         this.routeProvider = routeProvider;
         this.priceCalculator = priceCalculator;
         this.pointRepo = pointRepo;
+        this.tripInfoRepo = tripInfoRepo;
     }
 
-    @GetMapping("/{locations}")
+    @PostMapping("/{locations}")
     public Mono<TripInfo> index(@PathVariable String locations) {
-        return Mono.from(routeProvider.calculateRoute(locations))
-                .map(route -> new TripInfo(route, priceCalculator.calculate(route)));
+        Mono<TripInfo> mono = Mono.from(routeProvider.calculateRoute(locations))
+                .flatMap(route -> {
+                    TripInfo tripInfo = TripInfo.builder()
+                            .routeInfo(route)
+                            .price(priceCalculator.calculate(route))
+                            .build();
+                    return tripInfoRepo.save(tripInfo);
+                });
+
+        return Mono.from(mono);
     }
 
     @GetMapping("/{tripId}/points")
