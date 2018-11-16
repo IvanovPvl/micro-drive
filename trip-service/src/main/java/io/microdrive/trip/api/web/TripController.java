@@ -58,7 +58,7 @@ public class TripController {
 
     @PostMapping("/{tripId}/points")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Point> create(@PathVariable String tripId, @RequestBody io.microdrive.trip.routing.Point point) {
+    public Mono<Point> createPoint(@PathVariable String tripId, @RequestBody io.microdrive.trip.routing.Point point) {
         Point p = Point.builder()
                 .latitude(point.getLatitude())
                 .longitude(point.getLongitude())

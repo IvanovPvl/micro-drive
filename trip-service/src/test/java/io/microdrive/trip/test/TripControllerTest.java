@@ -1,5 +1,6 @@
 package io.microdrive.trip.test;
 
+import io.microdrive.trip.api.domain.Point;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import reactor.core.publisher.Mono;
@@ -59,5 +60,40 @@ public class TripControllerTest {
                 .jsonPath("$.price").isEqualTo(tripInfo.getPrice())
                 .jsonPath("$.createdAt").isEqualTo(tripInfo.getCreatedAt())
                 .jsonPath("$.route").isEmpty();
+    }
+
+    @Test
+    public void savePointReturnCreatedAndPoint() throws Exception {
+        io.microdrive.trip.routing.Point p = new io.microdrive.trip.routing.Point(2.22, 3.33);
+        Point point = Point.builder()
+                .tripId("tripId")
+                .latitude(p.getLatitude())
+                .longitude(p.getLongitude())
+                .build();
+
+        Point pointUpdated = Point.builder()
+                .id("id")
+                .tripId(point.getTripId())
+                .latitude(p.getLatitude())
+                .longitude(p.getLongitude())
+                .createdAt(new Date())
+                .build();
+
+        given(pointRepo.save(point)).willReturn(Mono.just(pointUpdated));
+
+        String path = String.format("/trip/%s/points", point.getTripId());
+        this.webTestClient.post().uri(path)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(p), io.microdrive.trip.routing.Point.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(pointUpdated.getId())
+                .jsonPath("$.tripId").isEqualTo(pointUpdated.getTripId())
+                .jsonPath("$.latitude").isEqualTo(pointUpdated.getLatitude())
+                .jsonPath("$.longitude").isEqualTo(pointUpdated.getLongitude())
+                .jsonPath("$.createdAt").isEqualTo(pointUpdated.getCreatedAt());
     }
 }
