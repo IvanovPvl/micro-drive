@@ -33,7 +33,7 @@ public class TripController {
     }
 
     @PostMapping("/{locations}")
-    public Mono<TripInfo> index(@PathVariable String locations) {
+    public Mono<TripInfo> getTripInfoByLocations(@PathVariable String locations) {
         Mono<TripInfo> mono = Mono.from(routeProvider.calculateRoute(locations))
                 .flatMap(route -> {
                     TripInfo tripInfo = TripInfo.builder()

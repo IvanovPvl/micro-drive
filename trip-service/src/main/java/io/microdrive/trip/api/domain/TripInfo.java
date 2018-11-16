@@ -2,7 +2,6 @@ package io.microdrive.trip.api.domain;
 
 import lombok.Data;
 import lombok.Builder;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.data.annotation.Id;
@@ -24,6 +23,5 @@ public class TripInfo {
 
     private double price;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SZ")
     @CreatedDate private Date createdAt;
 }

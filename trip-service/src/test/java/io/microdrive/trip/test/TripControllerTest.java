@@ -5,21 +5,24 @@ import org.junit.runner.RunWith;
 import reactor.core.publisher.Mono;
 import org.springframework.http.MediaType;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import io.microdrive.trip.api.data.TripInfoRepository;
-import io.microdrive.trip.api.domain.TripInfo;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 
 import java.util.Date;
-import java.text.SimpleDateFormat;
+
+import io.microdrive.trip.api.domain.TripInfo;
+import io.microdrive.trip.routing.RouteProvider;
+import io.microdrive.trip.api.web.TripController;
+import io.microdrive.trip.pricing.PriceCalculator;
+import io.microdrive.trip.api.data.PointRepository;
+import io.microdrive.trip.api.data.TripInfoRepository;
 
 import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WebFluxTest(TripController.class)
 public class TripControllerTest {
 
     @Autowired
@@ -28,8 +31,17 @@ public class TripControllerTest {
     @MockBean
     private TripInfoRepository tripInfoRepo;
 
+    @MockBean
+    private RouteProvider routeProvider;
+
+    @MockBean
+    private PriceCalculator priceCalculator;
+
+    @MockBean
+    private PointRepository pointRepo;
+
     @Test
-    public void getTripInfo() throws Exception {
+    public void getTripInfoById() throws Exception {
         TripInfo tripInfo = TripInfo.builder()
                 .id("123")
                 .price(1.1)
@@ -45,8 +57,7 @@ public class TripControllerTest {
                 .expectBody()
                 .jsonPath("$.id").isEqualTo(tripInfo.getId())
                 .jsonPath("$.price").isEqualTo(tripInfo.getPrice())
-//                .jsonPath("$.createdAt").isEqualTo(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SZ").format(tripInfo.getCreatedAt()))
-                .jsonPath("$.createdAt").isNotEmpty()
+                .jsonPath("$.createdAt").isEqualTo(tripInfo.getCreatedAt())
                 .jsonPath("$.route").isEmpty();
     }
 }
