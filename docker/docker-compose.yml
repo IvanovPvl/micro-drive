@@ -10,6 +10,7 @@ services:
       MONGO_INITDB_DATABASE: trip
     volumes:
       - ./trip-storage/initdb.d:/docker-entrypoint-initdb.d
+
   mongo-express:
     image: mongo-express:0.49
     ports:
@@ -18,3 +19,12 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_SERVER: trip-storage
+
+  auth-storage:
+    image: postgres:10
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "auth_dev"
+      POSTGRES_PASSWORD: "auth_dev"
+      POSTGRES_DB: "auth_dev"
