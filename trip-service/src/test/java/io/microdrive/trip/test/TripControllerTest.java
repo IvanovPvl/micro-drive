@@ -1,6 +1,7 @@
 package io.microdrive.trip.test;
 
 import io.microdrive.trip.api.domain.Point;
+import io.microdrive.trip.routing.RouteInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import reactor.core.publisher.Flux;
@@ -119,5 +120,49 @@ public class TripControllerTest {
                 .jsonPath("$[1].longitude").isEqualTo(p2.getLongitude())
                 .jsonPath("$[1].tripId").isEqualTo(p2.getTripId())
                 .jsonPath("$[1].createdAt").isEqualTo(p2.getCreatedAt());
+    }
+
+    @Test
+    public void getTripInfoByLocations() {
+        String locations = "1.1,2.2:3.3,4.4";
+        io.microdrive.trip.routing.Point p1 = new io.microdrive.trip.routing.Point(1.1, 2.2);
+        io.microdrive.trip.routing.Point p2 = new io.microdrive.trip.routing.Point(3.3, 4.4);
+        RouteInfo routeInfo = RouteInfo.builder()
+                .lengthInMeters(12000)
+                .trafficDelayInSeconds(2)
+                .travelTimeInSeconds(4000)
+                .points(Arrays.asList(p1, p2))
+                .build();
+
+        TripInfo tripInfo = TripInfo.builder()
+                .routeInfo(routeInfo)
+                .price(100.0)
+                .build();
+
+        TripInfo updated = TripInfo.builder()
+                .id("id")
+                .routeInfo(tripInfo.getRouteInfo())
+                .price(tripInfo.getPrice())
+                .createdAt(new Date())
+                .build();
+
+        given(routeProvider.calculateRoute(locations)).willReturn(Mono.just(routeInfo));
+        given(priceCalculator.calculate(routeInfo)).willReturn(tripInfo.getPrice());
+        given(tripInfoRepo.save(tripInfo)).willReturn(Mono.just(updated));
+
+        String path = String.format("/trip/%s", locations);
+        this.webTestClient.post().uri(path).exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(updated.getId())
+                .jsonPath("$.price").isEqualTo(updated.getPrice())
+                .jsonPath("$.createdAt").isEqualTo(updated.getCreatedAt())
+                .jsonPath("$.route.points.length()").isEqualTo(routeInfo.getPoints().size())
+                .jsonPath("$.route.points[0]").isEqualTo(p1)
+                .jsonPath("$.route.points[1]").isEqualTo(p2)
+                .jsonPath("$.route.lengthInMeters").isEqualTo(routeInfo.getLengthInMeters())
+                .jsonPath("$.route.trafficDelayInSeconds").isEqualTo(routeInfo.getTrafficDelayInSeconds())
+                .jsonPath("$.route.travelTimeInSeconds").isEqualTo(routeInfo.getTravelTimeInSeconds());
     }
 }

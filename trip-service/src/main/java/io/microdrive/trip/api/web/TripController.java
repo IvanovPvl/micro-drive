@@ -1,5 +1,6 @@
 package io.microdrive.trip.api.web;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -13,6 +14,7 @@ import io.microdrive.trip.pricing.PriceCalculator;
 import io.microdrive.trip.api.data.PointRepository;
 import io.microdrive.trip.api.data.TripInfoRepository;
 
+@Slf4j
 @RestController
 @RequestMapping("/trip")
 public class TripController {
