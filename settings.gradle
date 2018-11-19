@@ -1,4 +1,5 @@
 rootProject.name = 'micro-drive'
 include 'trip-service'
 include 'user-service'
+include 'auth-service'
 
