@@ -1,7 +1,7 @@
 package io.microdrive.auth.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.AllArgsConstructor;
 
 @Data
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package io.microdrive.auth;
+package io.microdrive.auth.api;
 
 import reactor.core.publisher.Mono;
 import org.springframework.http.HttpStatus;

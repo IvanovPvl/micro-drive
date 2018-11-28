@@ -1,9 +1,9 @@
 package io.microdrive.auth.domain;
 
-import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Builder;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +12,8 @@ import javax.persistence.*;
 
 import java.util.Date;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -32,9 +33,18 @@ public class User implements UserDetails {
     @Column(name = "created_at")
     private Date createdAt;
 
+    @ManyToMany
+    @JoinTable(
+            name = "role_user",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    private Set<Role> roles;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("user"));
+        return roles.stream()
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName().toUpperCase()))
+                .collect(Collectors.toSet());
     }
 
     @Override
