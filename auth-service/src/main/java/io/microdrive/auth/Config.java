@@ -12,4 +12,8 @@ public class Config {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
+    public String getJwtSigningKey() {
+        return "123";
+    }
 }

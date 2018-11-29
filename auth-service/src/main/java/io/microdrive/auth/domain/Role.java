@@ -8,9 +8,6 @@ import lombok.AllArgsConstructor;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-
-import java.util.Set;
 
 @Data
 @Entity
@@ -21,7 +18,4 @@ import java.util.Set;
 public class Role {
     @Id private long id;
     private String name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
 }

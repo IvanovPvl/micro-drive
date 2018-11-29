@@ -4,6 +4,7 @@ import reactor.core.publisher.Mono;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
 import io.microdrive.auth.domain.Role;
 import io.microdrive.auth.domain.User;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 
 @RestController
 @RequestMapping("/auth")
+@EnableAuthorizationServer
 public class AuthController {
 
     private final UserRepository userRepo;

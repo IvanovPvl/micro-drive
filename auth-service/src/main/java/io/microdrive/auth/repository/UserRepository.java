@@ -5,5 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import io.microdrive.auth.domain.User;
 
+import java.util.Optional;
+
 @Repository
-public interface UserRepository extends CrudRepository<User, String> {}
+public interface UserRepository extends CrudRepository<User, String> {
+    Optional<User> findByUsername(String username);
+}
