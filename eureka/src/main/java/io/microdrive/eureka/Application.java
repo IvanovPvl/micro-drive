@@ -1,10 +1,10 @@
-package io.microdrive.zuul;
+package io.microdrive.eureka;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-@EnableZuulProxy
+@EnableEurekaServer
 @SpringBootApplication
 public class Application {
 
