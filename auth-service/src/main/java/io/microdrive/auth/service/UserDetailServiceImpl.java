@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
-import javax.transaction.Transactional;
 
 import io.microdrive.auth.domain.User;
 import io.microdrive.auth.repository.UserRepository;
@@ -23,7 +22,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOp = userRepository.findByUsername(username);
         return userOp.orElseThrow(() -> new UsernameNotFoundException(("Username not found")));
