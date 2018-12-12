@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
-import io.microdrive.auth.domain.User;
+import io.microdrive.common.User;
 import io.microdrive.auth.repository.UserRepository;
 
 @Service

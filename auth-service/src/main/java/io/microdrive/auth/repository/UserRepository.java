@@ -3,7 +3,7 @@ package io.microdrive.auth.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
 
-import io.microdrive.auth.domain.User;
+import io.microdrive.common.User;
 
 import java.util.Optional;
 

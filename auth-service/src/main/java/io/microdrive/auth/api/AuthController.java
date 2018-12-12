@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
-import io.microdrive.auth.domain.Role;
-import io.microdrive.auth.domain.User;
 import io.microdrive.auth.domain.RegisterRequest;
 import io.microdrive.auth.domain.RegisterResponse;
 import io.microdrive.auth.repository.UserRepository;
@@ -15,6 +13,9 @@ import io.microdrive.auth.repository.RoleRepository;
 
 import java.util.Set;
 import java.util.HashSet;
+
+import io.microdrive.common.Role;
+import io.microdrive.common.User;
 
 @RestController
 @RequestMapping("/auth")

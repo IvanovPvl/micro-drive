@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-import io.microdrive.auth.domain.Role;
+import io.microdrive.common.Role;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
