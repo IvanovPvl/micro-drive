@@ -2,6 +2,17 @@ version: '3'
 
 services:
 
+  trip-storage:
+    image: mongo:3.6.8-stretch
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: trip
+    volumes:
+      - ./trip-storage/initdb.d:/docker-entrypoint-initdb.d
+
   main-storage:
     image: postgres:11.1-alpine
     ports:

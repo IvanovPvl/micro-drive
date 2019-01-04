@@ -1,7 +1,14 @@
 package io.microdrive.test;
 
-import io.microdrive.api.domain.Point;
-import io.microdrive.routing.RouteInfo;
+import io.microdrive.pricing.Info;
+import io.microdrive.pricing.PriceCalculator;
+import io.microdrive.trip.domain.Point;
+import io.microdrive.trip.domain.TripInfo;
+import io.microdrive.trip.repository.PointRepository;
+import io.microdrive.trip.repository.TripInfoRepository;
+import io.microdrive.trip.routing.RouteInfo;
+import io.microdrive.trip.routing.RouteProvider;
+import io.microdrive.trip.web.TripController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import reactor.core.publisher.Flux;
@@ -16,13 +23,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import java.util.Date;
 import java.util.List;
 import java.util.Arrays;
-
-import io.microdrive.api.domain.TripInfo;
-import io.microdrive.routing.RouteProvider;
-import io.microdrive.api.web.TripController;
-import io.microdrive.pricing.PriceCalculator;
-import io.microdrive.api.data.PointRepository;
-import io.microdrive.api.data.TripInfoRepository;
 
 import static org.mockito.BDDMockito.*;
 
@@ -68,7 +68,7 @@ public class TripControllerTest {
 
     @Test
     public void savePointReturnCreatedAndPoint() throws Exception {
-        io.microdrive.routing.Point p = new io.microdrive.routing.Point(2.22, 3.33);
+        io.microdrive.trip.routing.Point p = new io.microdrive.trip.routing.Point(2.22, 3.33);
         Point point = Point.builder()
                 .tripId("tripId")
                 .latitude(p.getLatitude())
@@ -82,7 +82,7 @@ public class TripControllerTest {
         this.webTestClient.post().uri(path)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .body(Mono.just(p), io.microdrive.routing.Point.class)
+                .body(Mono.just(p), io.microdrive.trip.routing.Point.class)
                 .exchange()
                 .expectStatus().isCreated()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -125,8 +125,8 @@ public class TripControllerTest {
     @Test
     public void getTripInfoByLocations() {
         String locations = "1.1,2.2:3.3,4.4";
-        io.microdrive.routing.Point p1 = new io.microdrive.routing.Point(1.1, 2.2);
-        io.microdrive.routing.Point p2 = new io.microdrive.routing.Point(3.3, 4.4);
+        io.microdrive.trip.routing.Point p1 = new io.microdrive.trip.routing.Point(1.1, 2.2);
+        io.microdrive.trip.routing.Point p2 = new io.microdrive.trip.routing.Point(3.3, 4.4);
         RouteInfo routeInfo = RouteInfo.builder()
                 .lengthInMeters(12000)
                 .trafficDelayInSeconds(2)
@@ -147,7 +147,7 @@ public class TripControllerTest {
                 .build();
 
         given(routeProvider.calculateRoute(locations)).willReturn(Mono.just(routeInfo));
-        given(priceCalculator.calculate(routeInfo)).willReturn(tripInfo.getPrice());
+        given(priceCalculator.calculate(new Info(routeInfo.getLengthInMeters()))).willReturn(tripInfo.getPrice());
         given(tripInfoRepo.save(tripInfo)).willReturn(Mono.just(updated));
 
         String path = String.format("/trip/%s", locations);

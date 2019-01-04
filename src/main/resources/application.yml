@@ -14,27 +14,29 @@ logging.level.org.hibernate.SQL: DEBUG
 logging.level.org.springframework.transaction.interceptor: TRACE
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-#spring:
-#  data:
-#    mongodb:
-#      database: trip
-#      host: localhost
-#      port: 27017
-#      username: trip
-#      password: password
-#
-#routing:
-#  tomtom:
-#    client:
-#      apiKey: ${TOMTOM_CLIENT_API_KEY}
-#      baseUrl: https://api.tomtom.com/
-#      apiVersion: 1
-#      contentType: json
-#      travelMode: car
-#
-#pricing:
-#  priceForKm: 0.15
-#
+#server.contextPath: /api/*
+
+spring:
+  data:
+    mongodb:
+      database: trip
+      host: localhost
+      port: 27017
+      username: trip
+      password: password
+
+routing:
+  tomtom:
+    client:
+      apiKey: ${TOMTOM_CLIENT_API_KEY}
+      baseUrl: https://api.tomtom.com/
+      apiVersion: 1
+      contentType: json
+      travelMode: car
+
+pricing:
+  priceForKm: 0.15
+
 #logging:
 #  level:
 #    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG

@@ -15,6 +15,12 @@ public class JwtConfig {
     @Value("${security.jwt.secret:JwtSecretKey}")
     private String secret;
 
+    @Value("${security.jwt.header:Authorization}")
+    private String header;
+
+    @Value("${security.jwt.prefix:Bearer }")
+    private String prefix;
+
     public String getUri() {
         return Uri;
     }
@@ -25,5 +31,13 @@ public class JwtConfig {
 
     public String getSecret() {
         return secret;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 }

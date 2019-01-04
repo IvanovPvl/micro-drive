@@ -1,4 +1,4 @@
-package io.microdrive.auth;
+package io.microdrive.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;

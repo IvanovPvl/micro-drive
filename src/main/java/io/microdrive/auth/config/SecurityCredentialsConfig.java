@@ -1,7 +1,7 @@
 package io.microdrive.auth.config;
 
-import io.microdrive.auth.JwtUsernameAndPasswordAuthenticationFilter;
-import io.microdrive.auth.config.JwtConfig;
+import io.microdrive.auth.filter.JwtTokenAuthenticationFilter;
+import io.microdrive.auth.filter.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,8 +35,10 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint((req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))
+                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, this.jwtConfig.getUri()).permitAll()
+                .antMatchers("/trip/**").hasRole("USER")
                 .anyRequest().authenticated();
     }
 
