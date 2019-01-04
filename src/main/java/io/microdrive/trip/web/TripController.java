@@ -6,6 +6,8 @@ import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.trip.repository.PointRepository;
 import io.microdrive.trip.repository.TripInfoRepository;
 import io.microdrive.trip.routing.RouteProvider;
+import io.microdrive.user.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ public class TripController {
     private final PointRepository pointRepo;
     private final TripInfoRepository tripInfoRepo;
 
+
     public TripController(RouteProvider routeProvider,
                           PriceCalculator priceCalculator,
                           PointRepository pointRepo,
@@ -32,7 +35,7 @@ public class TripController {
     }
 
     @PostMapping("/{locations}")
-    public Mono<TripInfo> getTripInfoByLocations(@PathVariable String locations) {
+    public Mono<TripInfo> getTripInfoByLocations(@PathVariable String locations, @AuthenticationPrincipal User user) {
         Mono<TripInfo> mono = Mono.from(routeProvider.calculateRoute(locations))
                 .flatMap(route -> {
                     TripInfo tripInfo = TripInfo.builder()

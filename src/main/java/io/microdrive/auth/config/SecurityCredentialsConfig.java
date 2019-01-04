@@ -2,6 +2,7 @@ package io.microdrive.auth.config;
 
 import io.microdrive.auth.filter.JwtTokenAuthenticationFilter;
 import io.microdrive.auth.filter.JwtUsernameAndPasswordAuthenticationFilter;
+import io.microdrive.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,12 +20,16 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
     private final JwtConfig jwtConfig;
+    private final UserRepository userRepository;
+    private final UserDetailsService userDetailsService;
 
-    public SecurityCredentialsConfig(UserDetailsService userDetailsService, JwtConfig jwtConfig) {
+    public SecurityCredentialsConfig(UserDetailsService userDetailsService,
+                                     JwtConfig jwtConfig,
+                                     UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
         this.jwtConfig = jwtConfig;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,7 +40,7 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint((req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))
-                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig, userRepository), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, this.jwtConfig.getUri()).permitAll()
                 .antMatchers("/trip/**").hasRole("USER")

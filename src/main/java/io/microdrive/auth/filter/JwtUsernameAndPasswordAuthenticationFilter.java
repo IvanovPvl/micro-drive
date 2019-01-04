@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.microdrive.auth.config.JwtConfig;
 import io.microdrive.auth.dto.LoginResponse;
 import io.microdrive.auth.dto.UserCredentials;
+import io.microdrive.user.User;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,9 +54,11 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        User user = (User) authResult.getPrincipal();
         Long now = System.currentTimeMillis();
+
         String token = Jwts.builder()
-                .setSubject(authResult.getName())
+                .setSubject(user.getId())
                 .claim("authorities", authResult.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(now))
