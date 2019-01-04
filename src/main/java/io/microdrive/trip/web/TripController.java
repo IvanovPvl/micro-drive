@@ -41,6 +41,7 @@ public class TripController {
                     TripInfo tripInfo = TripInfo.builder()
                             .routeInfo(route)
                             .price(priceCalculator.calculate(new Info(route.getLengthInMeters())))
+                            .userId(user.getId())
                             .build();
                     return tripInfoRepo.save(tripInfo);
                 });

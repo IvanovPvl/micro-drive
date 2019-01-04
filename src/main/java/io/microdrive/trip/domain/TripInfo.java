@@ -22,6 +22,7 @@ public class TripInfo {
     private RouteInfo routeInfo;
 
     private double price;
+    private String userId;
 
     @CreatedDate
     private Date createdAt;
