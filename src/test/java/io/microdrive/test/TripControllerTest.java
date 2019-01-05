@@ -1,6 +1,6 @@
 package io.microdrive.test;
 
-import io.microdrive.pricing.Info;
+import io.microdrive.pricing.dto.Info;
 import io.microdrive.pricing.PriceCalculator;
 import io.microdrive.trip.domain.Point;
 import io.microdrive.trip.domain.TripInfo;

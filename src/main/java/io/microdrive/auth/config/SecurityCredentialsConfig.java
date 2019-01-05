@@ -2,7 +2,7 @@ package io.microdrive.auth.config;
 
 import io.microdrive.auth.filter.JwtTokenAuthenticationFilter;
 import io.microdrive.auth.filter.JwtUsernameAndPasswordAuthenticationFilter;
-import io.microdrive.user.UserRepository;
+import io.microdrive.auth.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

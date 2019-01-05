@@ -1,5 +1,7 @@
 package io.microdrive.pricing;
 
+import io.microdrive.pricing.config.PricingConfigProperties;
+import io.microdrive.pricing.dto.Info;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

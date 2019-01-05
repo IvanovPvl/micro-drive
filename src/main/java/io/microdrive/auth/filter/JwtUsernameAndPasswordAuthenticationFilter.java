@@ -6,7 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.microdrive.auth.config.JwtConfig;
 import io.microdrive.auth.dto.LoginResponse;
 import io.microdrive.auth.dto.UserCredentials;
-import io.microdrive.user.User;
+import io.microdrive.auth.domain.User;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,4 @@
-package io.microdrive.pricing;
+package io.microdrive.pricing.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

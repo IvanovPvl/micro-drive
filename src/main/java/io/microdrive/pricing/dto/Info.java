@@ -1,4 +1,4 @@
-package io.microdrive.pricing;
+package io.microdrive.pricing.dto;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;

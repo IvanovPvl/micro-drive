@@ -6,8 +6,8 @@ import org.springframework.data.redis.core.ReactiveSetOperations;
 
 import java.util.Optional;
 
-import io.microdrive.user.User;
-import io.microdrive.user.UserRepository;
+import io.microdrive.auth.domain.User;
+import io.microdrive.auth.repository.UserRepository;
 
 @Service
 public class DriverService {

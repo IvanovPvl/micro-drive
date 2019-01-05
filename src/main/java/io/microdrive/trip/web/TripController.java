@@ -1,6 +1,6 @@
 package io.microdrive.trip.web;
 
-import io.microdrive.pricing.Info;
+import io.microdrive.pricing.dto.Info;
 import io.microdrive.pricing.PriceCalculator;
 import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.trip.errors.NoFreeDriversException;
@@ -9,7 +9,7 @@ import io.microdrive.trip.repository.PointRepository;
 import io.microdrive.trip.routing.RouteProvider;
 import io.microdrive.trip.service.DriverService;
 import io.microdrive.trip.service.TripService;
-import io.microdrive.user.User;
+import io.microdrive.auth.domain.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +39,7 @@ public class TripController {
         this.tripService = tripService;
     }
 
+    // Call by user
     @PostMapping("/info/{locations}")
     public Mono<TripInfo> getTripInfoByLocations(@PathVariable String locations, @AuthenticationPrincipal User user) {
         Mono<TripInfo> mono = Mono.from(routeProvider.calculateRoute(locations))
@@ -55,8 +56,9 @@ public class TripController {
         return Mono.from(mono);
     }
 
+    // Call by user
     @PostMapping("/request/{tripId}")
-    public Mono<User> requestTrip(@PathVariable String tripId, @AuthenticationPrincipal User user) {
+    public Mono<User> requestTrip(@PathVariable String tripId) {
         // TODO: notify driver via WebSocket
 
         return this.driverService
@@ -65,5 +67,12 @@ public class TripController {
                 .flatMap(u -> this.tripService.expectTrip(tripId, u.getId())
                         .flatMap(r -> r ? Mono.just(u) : Mono.error(new TripNotFoundException()))
                 );
+    }
+
+    // Call by driver
+    @PostMapping("/start/{tripId}")
+    public void startTrip(@PathVariable String tripId) {
+        // TODO: notify user via WebSocket
+        this.tripService.startTrip(tripId);
     }
 }

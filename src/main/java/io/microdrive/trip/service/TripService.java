@@ -24,14 +24,37 @@ public class TripService {
 
     public Mono<Boolean> expectTrip(String id, String driverId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(id));
+        query.addCriteria(Criteria.where("_id").is(id))
+                .addCriteria(Criteria.where("status").is(TripInfo.Status.NEW.name()));
         Update update = new Update();
         update.set("driverId", driverId);
         update.set("status", TripInfo.Status.EXPECTED);
 
+        return this.update(query, update);
+    }
+
+    public Mono<Boolean> startTrip(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id))
+                .addCriteria(Criteria.where("status").is(TripInfo.Status.EXPECTED.name()));
+        Update update = new Update();
+        update.set("status", TripInfo.Status.IN_PROGRESS);
+
+        return this.update(query, update);
+    }
+
+    public Mono<Boolean> finishTrip(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id))
+                .addCriteria(Criteria.where("status").is(TripInfo.Status.IN_PROGRESS.name()));
+        Update update = new Update();
+        update.set("status", TripInfo.Status.FINISHED);
+
+        return this.update(query, update);
+    }
+
+    private Mono<Boolean> update(Query query, Update update) {
         return this.mongoTemplate.updateFirst(query, update, TripInfo.class)
                 .flatMap(r -> r.getModifiedCount() == 1 ? Mono.just(true) : Mono.just(false));
     }
-
-    public void startTrip(String tripId) {}
 }
