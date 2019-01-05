@@ -5,6 +5,7 @@ import lombok.Builder;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -30,6 +31,9 @@ public class TripInfo {
 
     @CreatedDate
     private Date createdAt;
+
+    @LastModifiedDate
+    private Date updatedAt;
 
     public enum Status {
         NEW,

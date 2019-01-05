@@ -1,4 +1,4 @@
-package io.microdrive.trip;
+package io.microdrive.trip.config;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import org.springframework.context.annotation.Bean;

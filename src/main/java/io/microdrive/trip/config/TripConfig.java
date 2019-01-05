@@ -1,4 +1,4 @@
-package io.microdrive.trip;
+package io.microdrive.trip.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
