@@ -31,6 +31,7 @@ dependencies {
     final JJWT_VERSION = '0.9.1'
     final JACKSON_DATABIND_VERSION = '2.9.8'
     final MONGODB_REACTIVE_VERSION = '2.0.0.M1'
+	final FLYWAY_VERSION = '5.2.4'
 
 	implementation('org.springframework.boot:spring-boot-starter-web')
     implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -43,6 +44,7 @@ dependencies {
     implementation("org.postgresql:postgresql:${POSTGRES_DRIVER_VERSION}")
 	implementation("io.jsonwebtoken:jjwt:${JJWT_VERSION}")
     implementation("com.fasterxml.jackson.core:jackson-databind:${JACKSON_DATABIND_VERSION}")
+	implementation("org.flywaydb:flyway-core:${FLYWAY_VERSION}")
 
     compileOnly('org.projectlombok:lombok')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
