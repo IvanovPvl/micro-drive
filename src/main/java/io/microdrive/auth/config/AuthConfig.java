@@ -40,7 +40,12 @@ public class AuthConfig {
                 .role("driver")
                 .build();
 
-        this.userRepository.save(user);
-        this.userRepository.save(driver);
+        if (!this.userRepository.findById(user.getId()).isPresent()) {
+            this.userRepository.save(user);
+        }
+
+        if (!this.userRepository.findById(driver.getId()).isPresent()) {
+            this.userRepository.save(driver);
+        }
     }
 }

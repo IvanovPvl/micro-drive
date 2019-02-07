@@ -1,11 +1,11 @@
-package io.microdrive.trip.routing.tomtom.model;
+package io.microdrive.routing.tomtom.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import io.microdrive.trip.routing.Point;
+import io.microdrive.routing.Point;
 
 @Data
 @NoArgsConstructor

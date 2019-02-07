@@ -1,4 +1,4 @@
-package io.microdrive.trip.routing;
+package io.microdrive.routing;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

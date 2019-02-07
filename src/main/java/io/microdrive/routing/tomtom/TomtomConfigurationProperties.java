@@ -1,4 +1,4 @@
-package io.microdrive.trip.routing.tomtom;
+package io.microdrive.routing.tomtom;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

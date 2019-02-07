@@ -1,4 +1,4 @@
-package io.microdrive.trip.routing.tomtom;
+package io.microdrive.routing.tomtom;
 
 import reactor.core.publisher.Mono;
 import org.springframework.stereotype.Component;
@@ -6,13 +6,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Locale;
 
-import io.microdrive.trip.routing.Point;
-import io.microdrive.trip.routing.RouteInfo;
-import io.microdrive.trip.routing.RouteProvider;
-import io.microdrive.trip.routing.tomtom.model.Leg;
-import io.microdrive.trip.routing.tomtom.model.Route;
-import io.microdrive.trip.routing.tomtom.model.Summary;
-import io.microdrive.trip.routing.tomtom.model.CalculateRouteResponse;
+import io.microdrive.routing.Point;
+import io.microdrive.routing.RouteInfo;
+import io.microdrive.routing.RouteProvider;
+import io.microdrive.routing.tomtom.model.Leg;
+import io.microdrive.routing.tomtom.model.Route;
+import io.microdrive.routing.tomtom.model.Summary;
+import io.microdrive.routing.tomtom.model.CalculateRouteResponse;
 
 @Component
 public class TomtomRouteProvider implements RouteProvider {

@@ -1,4 +1,4 @@
-package io.microdrive.trip.routing.tomtom.model;
+package io.microdrive.routing.tomtom.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

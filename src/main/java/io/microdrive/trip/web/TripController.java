@@ -6,7 +6,7 @@ import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.trip.errors.NoFreeDriversException;
 import io.microdrive.trip.errors.TripNotFoundException;
 import io.microdrive.trip.repository.PointRepository;
-import io.microdrive.trip.routing.RouteProvider;
+import io.microdrive.routing.RouteProvider;
 import io.microdrive.trip.service.DriverService;
 import io.microdrive.trip.service.TripService;
 import io.microdrive.auth.domain.User;

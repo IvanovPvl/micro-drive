@@ -11,15 +11,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import javax.persistence.Id;
 
-import io.microdrive.trip.routing.RouteInfo;
+import io.microdrive.routing.RouteInfo;
 
 @Data
 @Builder
 @Document("tripsInfo")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TripInfo {
-    @Id
-    private String id;
+    @Id private String id;
 
     @JsonProperty("route")
     private RouteInfo routeInfo;
