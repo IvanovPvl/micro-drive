@@ -5,10 +5,9 @@ import io.microdrive.pricing.PriceCalculator;
 import io.microdrive.trip.domain.Point;
 import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.trip.repository.PointRepository;
-import io.microdrive.trip.repository.TripInfoRepository;
 import io.microdrive.routing.RouteInfo;
 import io.microdrive.routing.RouteProvider;
-import io.microdrive.trip.web.TripController;
+import io.microdrive.trip.web.UserTripController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import reactor.core.publisher.Flux;
@@ -27,8 +26,8 @@ import java.util.Arrays;
 import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
-@WebFluxTest(TripController.class)
-public class TripControllerTest {
+@WebFluxTest(UserTripController.class)
+public class UserTripControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
