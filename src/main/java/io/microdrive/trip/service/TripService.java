@@ -18,10 +18,23 @@ public class TripService {
         this.mongoTemplate = mongoTemplate;
     }
 
+    /**
+     * Store trip
+     *
+     * @param tripInfo info about trip
+     * @return Mono result
+     */
     public Mono<TripInfo> addTrip(TripInfo tripInfo) {
         return this.mongoTemplate.save(tripInfo);
     }
 
+    /**
+     * Assign new trip to driver and set status to NEW
+     *
+     * @param id tripId
+     * @param driverId driverId
+     * @return Mono result
+     */
     public Mono<Boolean> expectTrip(String id, String driverId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id))
@@ -33,6 +46,12 @@ public class TripService {
         return this.update(query, update);
     }
 
+    /**
+     * Set IN_PROGRESS status to trip
+     *
+     * @param id tripId
+     * @return Mono result
+     */
     public Mono<Boolean> startTrip(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id))
@@ -43,6 +62,12 @@ public class TripService {
         return this.update(query, update);
     }
 
+    /**
+     * Set FINISHED status to trip
+     *
+     * @param id tripId
+     * @return Mono result
+     */
     public Mono<Boolean> finishTrip(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id))
