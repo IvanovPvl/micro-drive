@@ -28,11 +28,9 @@ public class TripInfo {
     private String driverId;
     private Status status;
 
-    @CreatedDate
-    private Date createdAt;
+    @CreatedDate private Date createdAt;
 
-    @LastModifiedDate
-    private Date updatedAt;
+    @LastModifiedDate private Date updatedAt;
 
     public enum Status {
         NEW,

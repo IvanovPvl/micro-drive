@@ -8,6 +8,7 @@ import io.microdrive.trip.repository.PointRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import io.microdrive.auth.domain.User;
+import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.trip.service.TripService;
 import io.microdrive.trip.service.DriverService;
 import io.microdrive.trip.errors.TripNotFoundException;
@@ -26,13 +27,13 @@ public class DriverTripController {
         this.pointRepository = pointRepository;
     }
 
-    @PostMapping("/start/{tripId}")
+    @PostMapping("/{tripId}/start")
     public Mono<Void> startTrip(@PathVariable String tripId) {
         return this.tripService.startTrip(tripId)
                 .flatMap(r -> !r ? Mono.error(new TripNotFoundException()) : Mono.empty());
     }
 
-    @PostMapping("/finish/{tripId}")
+    @PostMapping("/{tripId}/finish")
     public Mono<Void> finishTrip(@PathVariable String tripId, @AuthenticationPrincipal User user) {
         return this.tripService.finishTrip(tripId)
                 .flatMap(r -> !r ? Mono.error(new TripNotFoundException()) : Mono.empty())
@@ -53,5 +54,8 @@ public class DriverTripController {
                 .flatMap(pt -> Mono.empty());
     }
 
-    // TODO: check expected trips for driver
+    @GetMapping("/check")
+    public Mono<TripInfo> checkTrip(@AuthenticationPrincipal User user) {
+        return this.tripService.findExpectedTripForDriver(user.getId());
+    }
 }

@@ -52,7 +52,7 @@ public class UserTripController {
         return Mono.from(mono);
     }
 
-    @PostMapping("/request/{tripId}")
+    @PostMapping("/{tripId}/request")
     public Mono<User> requestTrip(@PathVariable String tripId) {
         return this.driverService
                 .getFreeDriver()

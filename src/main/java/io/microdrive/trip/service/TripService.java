@@ -1,11 +1,11 @@
 package io.microdrive.trip.service;
 
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import reactor.core.publisher.Mono;
 import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 import io.microdrive.trip.domain.TripInfo;
 
@@ -76,6 +76,20 @@ public class TripService {
         update.set("status", TripInfo.Status.FINISHED);
 
         return this.update(query, update);
+    }
+
+    /**
+     * Find expected trip for driver
+     *
+     * @param driverId driverId
+     * @return Mono
+     */
+    public Mono<TripInfo> findExpectedTripForDriver(String driverId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(driverId))
+                .addCriteria(Criteria.where("status").is(TripInfo.Status.EXPECTED.name()));
+
+        return this.mongoTemplate.findOne(query, TripInfo.class);
     }
 
     private Mono<Boolean> update(Query query, Update update) {

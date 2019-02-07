@@ -14,12 +14,9 @@ import javax.persistence.Id;
 @Document("points")
 @AllArgsConstructor
 public class Point {
-
-    @Id
-    private String id;
+    @Id private String id;
     private double latitude;
     private double longitude;
     private String tripId;
-    @CreatedDate
-    Date createdAt;
+    @CreatedDate Date createdAt;
 }
