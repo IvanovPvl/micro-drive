@@ -33,6 +33,9 @@ public class User implements UserDetails {
     private String password;
     private String role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Car car;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
