@@ -1,10 +1,10 @@
 package io.microdrive.trip.web;
 
 import reactor.core.publisher.Mono;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.microdrive.trip.domain.Point;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import io.microdrive.trip.repository.PointRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import io.microdrive.auth.domain.User;
@@ -18,10 +18,12 @@ public class DriverTripController {
 
     private final TripService tripService;
     private final DriverService driverService;
+    private final PointRepository pointRepository;
 
-    public DriverTripController(TripService tripService, DriverService driverService) {
+    public DriverTripController(TripService tripService, DriverService driverService, PointRepository pointRepository) {
         this.tripService = tripService;
         this.driverService = driverService;
+        this.pointRepository = pointRepository;
     }
 
     @PostMapping("/start/{tripId}")
@@ -38,6 +40,18 @@ public class DriverTripController {
                 .flatMap(l -> Mono.empty());
     }
 
+    @PostMapping("/{tripId}/points")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Void> createPoint(@PathVariable String tripId, @RequestBody io.microdrive.routing.Point point) {
+        Point p = Point.builder()
+                .tripId(tripId)
+                .latitude(point.getLatitude())
+                .longitude(point.getLongitude())
+                .build();
+
+        return this.pointRepository.save(p)
+                .flatMap(pt -> Mono.empty());
+    }
+
     // TODO: check expected trips for driver
-    // TODO: save points of active trip
 }
