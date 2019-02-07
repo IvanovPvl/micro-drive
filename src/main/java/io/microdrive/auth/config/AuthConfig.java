@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import io.microdrive.auth.domain.User;
 import io.microdrive.auth.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Slf4j
 @Configuration
@@ -21,10 +22,12 @@ public class AuthConfig {
 
     private final UserRepository userRepository;
     private final CarRepository carRepository;
+    private final PasswordEncoder encoder;
 
-    public AuthConfig(UserRepository userRepository, CarRepository carRepository) {
+    public AuthConfig(UserRepository userRepository, CarRepository carRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.carRepository = carRepository;
+        this.encoder = encoder;
     }
 
     @Bean
@@ -35,14 +38,14 @@ public class AuthConfig {
         val user = User.builder()
                 .id(UUID.randomUUID().toString())
                 .username("pavel")
-                .password("111")
+                .password(this.encoder.encode("111"))
                 .role("user")
                 .build();
 
         var driver = User.builder()
                 .id(UUID.randomUUID().toString())
                 .username("sam")
-                .password("111")
+                .password(this.encoder.encode("111"))
                 .role("driver")
                 .build();
 
