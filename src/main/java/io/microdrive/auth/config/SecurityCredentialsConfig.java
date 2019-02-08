@@ -4,6 +4,8 @@ import io.microdrive.auth.filter.JwtTokenAuthenticationFilter;
 import io.microdrive.auth.filter.JwtUsernameAndPasswordAuthenticationFilter;
 import io.microdrive.auth.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletResponse;
 
+@Configuration
 @EnableWebSecurity
+@Profile(value = { "prod", "dev" })
 public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtConfig jwtConfig;
