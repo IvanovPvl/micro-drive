@@ -1,4 +1,4 @@
-package io.microdrive.trip.domain;
+package io.microdrive.trip.domain.tripinfo;
 
 import lombok.Data;
 import lombok.Builder;

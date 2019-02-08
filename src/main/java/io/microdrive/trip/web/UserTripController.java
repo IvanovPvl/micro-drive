@@ -9,13 +9,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import io.microdrive.auth.domain.User;
 import io.microdrive.pricing.dto.Info;
-import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.routing.RouteProvider;
 import io.microdrive.pricing.PriceCalculator;
 import io.microdrive.trip.service.TripService;
 import io.microdrive.trip.service.DriverService;
+import io.microdrive.trip.domain.tripinfo.TripInfo;
 import io.microdrive.trip.errors.TripNotFoundException;
 import io.microdrive.trip.errors.NoFreeDriversException;
+import io.microdrive.trip.domain.tripinfo.repository.TripInfoRepository;
 
 @RestController
 @RequestMapping("/trip/user")
@@ -25,15 +26,17 @@ public class UserTripController {
     private final PriceCalculator priceCalculator;
     private final DriverService driverService;
     private final TripService tripService;
+    private final TripInfoRepository tripInfoRepository;
 
     public UserTripController(RouteProvider routeProvider,
                               PriceCalculator priceCalculator,
                               DriverService driverService,
-                              TripService tripService) {
+                              TripService tripService, TripInfoRepository tripInfoRepository) {
         this.routeProvider = routeProvider;
         this.priceCalculator = priceCalculator;
         this.driverService = driverService;
         this.tripService = tripService;
+        this.tripInfoRepository = tripInfoRepository;
     }
 
     @PostMapping("/info/{locations}")
@@ -46,7 +49,7 @@ public class UserTripController {
                             .userId(user.getId())
                             .status(TripInfo.Status.NEW)
                             .build();
-                    return this.tripService.addTrip(tripInfo);
+                    return this.tripInfoRepository.save(tripInfo);
                 });
 
         return Mono.from(mono);

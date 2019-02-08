@@ -8,9 +8,9 @@ import io.microdrive.trip.repository.PointRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import io.microdrive.auth.domain.User;
-import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.trip.service.TripService;
 import io.microdrive.trip.service.DriverService;
+import io.microdrive.trip.domain.tripinfo.TripInfo;
 import io.microdrive.trip.errors.TripNotFoundException;
 
 @RestController
