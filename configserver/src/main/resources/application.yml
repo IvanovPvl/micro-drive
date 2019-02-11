@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT:8888}
+
+#spring:
+#  application:
+#    name: configserver
+#  cloud:
+#    config:
+#      server:
+#        encrypt:
+#          enabled: false
+#        git:
+#          uri: https://github.com/IvanovPvl/micro-drive-config
+#          search-paths: app
+
+#-*-*-*-*-*-*-*-*-*-*
+# Classpath solution
+#-*-*-*-*-*-*-*-*-*-*
+
+spring:
+  application:
+    name: configserver
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:config,classpath:config/app

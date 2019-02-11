@@ -26,6 +26,14 @@ repositories {
     maven { url "http://repo.spring.io/plugins-release/" }
 }
 
+dependencyManagement {
+    final SPRING_CLOUD_VERSION = 'Greenwich.RELEASE'
+
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${SPRING_CLOUD_VERSION}"
+    }
+}
+
 dependencies {
     final POSTGRES_DRIVER_VERSION = '42.2.5'
     final JJWT_VERSION = '0.9.1'
@@ -40,6 +48,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${MONGODB_REACTIVE_VERSION}")
+
+    // Spring Cloud dependencies
+    implementation("org.springframework.cloud:spring-cloud-config-client")
 
     implementation("org.postgresql:postgresql:${POSTGRES_DRIVER_VERSION}")
     implementation("io.jsonwebtoken:jjwt:${JJWT_VERSION}")
