@@ -22,7 +22,7 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/main_dev"
     username: main_dev
-    password: main_dev
+    password: '{cipher}ec77c83facceb96f4747487d6557eb2d006657424f64e3ab6105a318b9465c62'
 
   data:
     mongodb:
@@ -30,7 +30,7 @@ spring:
       host: localhost
       port: 27017
       username: trip
-      password: password
+      password: '{cipher}6bc8a7d615ff29b8fda8afe9d496b2b9b470073d47a5dfddd3ab04ac23231313'
 
 logging:
   level:
