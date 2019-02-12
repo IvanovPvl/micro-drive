@@ -1,0 +1,11 @@
+spring:
+  application:
+    name:
+      app
+  profiles:
+    active:
+      ${PROFILE:dev}
+  cloud:
+    config:
+      enabled: true
+      uri: ${CONFIGSERVER_URI}
