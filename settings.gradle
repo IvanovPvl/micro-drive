@@ -2,3 +2,4 @@ rootProject.name = 'micro-drive'
 
 include 'configserver'
 include 'app'
+include 'eurekaserver'
