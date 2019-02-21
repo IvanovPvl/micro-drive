@@ -1,6 +1,7 @@
 package io.microdrive.app.trip.web;
 
 import reactor.core.publisher.Mono;
+import lombok.RequiredArgsConstructor;
 import io.microdrive.app.trip.domain.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +16,12 @@ import io.microdrive.app.trip.errors.TripNotFoundException;
 
 @RestController
 @RequestMapping("/trip/driver")
+@RequiredArgsConstructor
 public class DriverTripController {
 
     private final TripService tripService;
     private final DriverService driverService;
     private final PointRepository pointRepository;
-
-    public DriverTripController(TripService tripService, DriverService driverService, PointRepository pointRepository) {
-        this.tripService = tripService;
-        this.driverService = driverService;
-        this.pointRepository = pointRepository;
-    }
 
     @PostMapping("/{tripId}/start")
     public Mono<Void> startTrip(@PathVariable String tripId) {
