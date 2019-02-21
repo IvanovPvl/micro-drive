@@ -1,0 +1,6 @@
+server:
+  servlet:
+    context-path: /api/v1
+
+pricing:
+  priceForKm: 0.15

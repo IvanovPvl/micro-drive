@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.ReactiveSetOperations;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
@@ -24,5 +25,12 @@ public class TripConfig {
                 .build();
 
         return new ReactiveRedisTemplate<>(cf, context).opsForSet();
+    }
+
+    @Bean
+    public WebClient pricingWebClient() {
+        return WebClient.builder()
+                .baseUrl("http://pricing/api/v1")
+                .build();
     }
 }

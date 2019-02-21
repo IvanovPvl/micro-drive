@@ -1,11 +1,12 @@
-package io.microdrive.app.pricing;
+package io.microdrive.pricing;
 
-import io.microdrive.app.pricing.config.PricingConfigProperties;
-import io.microdrive.app.pricing.dto.Info;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import io.microdrive.pricing.dto.Request;
+import io.microdrive.pricing.config.PricingConfigProperties;
 
 @Component
 public class DistancePriceCalculator implements PriceCalculator {
@@ -17,7 +18,7 @@ public class DistancePriceCalculator implements PriceCalculator {
     }
 
     @Override
-    public double calculate(Info info) {
+    public double calculate(Request info) {
         return new BigDecimal(info.getLength() / 1000.0 * config.getPriceForKm())
                 .setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();

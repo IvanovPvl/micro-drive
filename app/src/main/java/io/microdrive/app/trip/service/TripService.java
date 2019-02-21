@@ -1,19 +1,17 @@
 package io.microdrive.app.trip.service;
 
 import reactor.core.publisher.Mono;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import io.microdrive.app.trip.domain.tripinfo.TripInfo;
 import io.microdrive.app.trip.domain.tripinfo.repository.TripInfoRepository;
 
 @Service
+@RequiredArgsConstructor
 public class TripService {
 
     private final TripInfoRepository repository;
-
-    public TripService(TripInfoRepository repository) {
-        this.repository = repository;
-    }
 
     /**
      * Assign new trip to driver and set status to NEW
