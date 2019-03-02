@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import io.microdrive.auth.domain.User;
 import io.microdrive.auth.service.UserService;
 
-
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor

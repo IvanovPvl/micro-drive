@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,10 +28,8 @@ public class User implements UserDetails {
 
     private String username;
 
-    @JsonIgnore
     private String password;
 
-    @JsonIgnore
     private List<String> roles;
 
     @CreatedDate

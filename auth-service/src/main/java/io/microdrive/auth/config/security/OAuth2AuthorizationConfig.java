@@ -31,7 +31,12 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .withClient("mobile")
                 .secret("{noop}secret")
                 .authorizedGrantTypes("refresh_token", "password")
-                .scopes("ui");
+                .scopes("ui")
+                .and()
+                .withClient("account-service")
+                .secret("{noop}account-service-secret")
+                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .scopes("server");
     }
 
     @Override
