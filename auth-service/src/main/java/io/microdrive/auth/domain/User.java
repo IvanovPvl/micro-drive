@@ -1,6 +1,9 @@
 package io.microdrive.auth.domain;
 
 import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,10 +15,15 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "users")
 public class User implements UserDetails {
 
     @Id
+    private String id;
+
     private String username;
 
     private String password;
