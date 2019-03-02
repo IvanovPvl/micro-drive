@@ -1,21 +1,19 @@
 package io.microdrive.app.trip.domain.tripinfo.repository;
 
-import io.microdrive.app.trip.domain.tripinfo.TripInfo;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 import org.springframework.stereotype.Repository;
+import io.microdrive.app.trip.domain.tripinfo.TripInfo;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 @Repository
+@RequiredArgsConstructor
 public class MongoTripInfoRepository implements TripInfoRepository {
 
     private final ReactiveMongoTemplate mongoTemplate;
-
-    public MongoTripInfoRepository(ReactiveMongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
-    }
 
     /**
      * Store trip

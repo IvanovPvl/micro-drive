@@ -13,10 +13,12 @@ import io.microdrive.app.trip.pricing.dto.PricingResponse;
 @RequiredArgsConstructor
 public class PricingClient {
 
-    private final WebClient pricingWebClient;
+    private final WebClient.Builder builder;
 
     public Mono<PricingResponse> calculate(PricingRequest request) {
-        return this.pricingWebClient.post()
+        return this.builder.baseUrl("http://pricing/api/v1")
+                .build()
+                .post()
                 .uri("/calculate")
                 .body(BodyInserters.fromObject(request))
                 .exchange()
