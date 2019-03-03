@@ -8,11 +8,11 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
-//@RefreshScope
+@RefreshScope
 @EnableMongoAuditing
 @EnableResourceServer
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @EnableAuthorizationServer
 public class AuthApplication {
 

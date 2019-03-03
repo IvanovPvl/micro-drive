@@ -2,12 +2,14 @@ server:
   port: ${SERVER_PORT:8888}
 
 #spring:
+#  profiles:
+#    active: native
 #  cloud:
 #    config:
 #      server:
 #        git:
 #          uri: https://github.com/IvanovPvl/micro-drive-config
-#          search-paths: app, pricing
+#          search-paths: app,pricing,auth-service
 
 #-*-*-*-*-*-*-*-*-*-*
 # Classpath solution
@@ -20,4 +22,4 @@ spring:
     config:
       server:
         native:
-          search-locations: classpath:config,classpath:config/app,classpath:config/pricing
+          search-locations: classpath:config,classpath:config/app,classpath:config/pricing,classpath:config/auth-service

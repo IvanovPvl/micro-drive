@@ -1,11 +1,2 @@
 server:
   port: ${SERVER_PORT:8080}
-
-spring:
-  data:
-    mongodb:
-      database: main
-      host: localhost
-      port: 27017
-      username: user
-      password: password
