@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-import io.microdrive.auth.domain.User;
+import io.microdrive.account.domain.User;
 import io.microdrive.pricing.dto.Info;
 import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.routing.RouteProvider;

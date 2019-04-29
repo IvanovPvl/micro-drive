@@ -1,4 +1,4 @@
-package io.microdrive.auth.config;
+package io.microdrive.account.config;
 
 import lombok.val;
 import lombok.var;
@@ -7,24 +7,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
-import io.microdrive.auth.domain.Car;
-import io.microdrive.auth.repository.CarRepository;
+import io.microdrive.account.domain.Car;
+import io.microdrive.account.repository.CarRepository;
 
 import java.util.UUID;
 
-import io.microdrive.auth.domain.User;
-import io.microdrive.auth.repository.UserRepository;
+import io.microdrive.account.domain.User;
+import io.microdrive.account.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Slf4j
 @Configuration
-public class AuthConfig {
+public class AccountConfig {
 
     private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final PasswordEncoder encoder;
 
-    public AuthConfig(UserRepository userRepository, CarRepository carRepository, PasswordEncoder encoder) {
+    public AccountConfig(UserRepository userRepository, CarRepository carRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.carRepository = carRepository;
         this.encoder = encoder;

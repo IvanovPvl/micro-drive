@@ -1,6 +1,6 @@
-package io.microdrive.auth.repository;
+package io.microdrive.account.repository;
 
-import io.microdrive.auth.domain.User;
+import io.microdrive.account.domain.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
 

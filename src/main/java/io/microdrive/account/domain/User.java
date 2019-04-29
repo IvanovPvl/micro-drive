@@ -1,4 +1,4 @@
-package io.microdrive.auth.domain;
+package io.microdrive.account.domain;
 
 import lombok.Data;
 import lombok.Builder;

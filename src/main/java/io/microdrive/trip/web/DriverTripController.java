@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import io.microdrive.trip.repository.PointRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-import io.microdrive.auth.domain.User;
+import io.microdrive.account.domain.User;
 import io.microdrive.trip.domain.TripInfo;
 import io.microdrive.trip.service.TripService;
 import io.microdrive.trip.service.DriverService;
