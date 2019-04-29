@@ -38,6 +38,8 @@ public class AuthConfig {
         val user = User.builder()
                 .id(UUID.randomUUID().toString())
                 .username("pavel")
+                .firstName("Pavel")
+                .lastName("Ivanov")
                 .password(this.encoder.encode("111"))
                 .role("user")
                 .build();
@@ -45,6 +47,8 @@ public class AuthConfig {
         var driver = User.builder()
                 .id(UUID.randomUUID().toString())
                 .username("sam")
+                .firstName("Sam")
+                .lastName("Willis")
                 .password(this.encoder.encode("111"))
                 .role("driver")
                 .build();

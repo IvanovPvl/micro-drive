@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -27,4 +29,8 @@ public class Car {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Date createdAt;
 }
