@@ -1,4 +1,4 @@
-package io.microdrive.account.service;
+package io.microdrive.account.service.security;
 
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
