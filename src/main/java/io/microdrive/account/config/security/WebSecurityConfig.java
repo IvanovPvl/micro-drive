@@ -1,4 +1,4 @@
-package io.microdrive.account.config;
+package io.microdrive.account.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
