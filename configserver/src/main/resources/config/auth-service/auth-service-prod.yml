@@ -1,8 +1,0 @@
-spring:
-  data:
-    mongodb:
-      database: auth
-      host: auth-store
-      port: 27017
-      username: user
-      password: password

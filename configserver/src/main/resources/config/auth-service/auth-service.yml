@@ -1,8 +1,0 @@
-spring:
-  data:
-    mongodb:
-      database: main
-      host: localhost
-      port: 27017
-      username: user
-      password: '{cipher}5cf5eea6693e03eb4cff59b051749e77140419d673c2f9b54ee4902a654d30be'
