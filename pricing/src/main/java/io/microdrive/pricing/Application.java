@@ -15,7 +15,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class Application {
 
-    private final PriceHandler priceHandler;
+    private final ApiHandler priceHandler;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

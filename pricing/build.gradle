@@ -37,7 +37,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:${JACKSON_DATABIND_VERSION}"
     implementation "org.glassfish.jaxb:jaxb-runtime:${JAXB_RUNTIME_VERSION}"
 
-    compileOnly "org.projectlombok:lombok:${LOMBOK_VERSION}"
+    implementation "org.projectlombok:lombok:${LOMBOK_VERSION}"
     annotationProcessor "org.projectlombok:lombok:${LOMBOK_VERSION}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

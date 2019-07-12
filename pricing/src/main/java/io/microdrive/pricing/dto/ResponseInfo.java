@@ -1,13 +1,11 @@
 package io.microdrive.pricing.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Value;
+import lombok.*;
 
-@Value
+@Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ResponseInfo {
     private double price;
 }

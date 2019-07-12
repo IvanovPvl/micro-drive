@@ -14,7 +14,7 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 
 @Component
 @RequiredArgsConstructor
-public class PriceHandler {
+public class ApiHandler {
 
     private final PriceService priceService;
 
