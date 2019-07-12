@@ -1,7 +1,10 @@
 package io.microdrive.account.config;
 
+import io.microdrive.trip.service.DriverService;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,17 +20,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class AccountConfig {
 
     private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final PasswordEncoder encoder;
-
-    public AccountConfig(UserRepository userRepository, CarRepository carRepository, PasswordEncoder encoder) {
-        this.userRepository = userRepository;
-        this.carRepository = carRepository;
-        this.encoder = encoder;
-    }
+    private final DriverService driverService;
 
     @Bean
     @ConditionalOnProperty(name = "spring.profiles.active", havingValue = "dev")
@@ -65,6 +64,7 @@ public class AccountConfig {
             driver = this.userRepository.save(driver);
             car.setUser(driver);
             this.carRepository.save(car);
+            driverService.addDriverToFree(driver.getId()).subscribe();
         }
     }
 }
