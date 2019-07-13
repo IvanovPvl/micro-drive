@@ -1,0 +1,15 @@
+server:
+  port: ${SERVER_PORT:8083}
+
+spring:
+  application:
+    name: accounts
+  profiles:
+    active: ${PROFILE:dev}
+  data:
+    mongodb:
+      database: ${MD_DATABASE_NAME:trip}
+      host: ${MD_DATABASE_HOST:localhost}
+      port: ${MD_DATABASE_PORT:27017}
+      username: ${MD_DATABASE_USERNAME:trip}
+      password: ${MD_DATABASE_PASSWORD:password}
