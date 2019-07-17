@@ -1,30 +1,22 @@
 package io.microdrive.accounts;
 
-import io.microdrive.accounts.web.ApiHandler;
+import io.microdrive.accounts.web.AccountsController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.server.RouterFunction;
-import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
-import static org.springframework.web.reactive.function.server.RouterFunctions.route;
-
+@EnableResourceServer
 @SpringBootApplication
 @RequiredArgsConstructor
+@EnableAuthorizationServer
 public class Application {
 
-    private final ApiHandler apiHandler;
+    private final AccountsController apiHandler;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-
-    @Bean
-    RouterFunction<ServerResponse> routes() {
-        return route()
-                .GET("/accounts/drivers/{id}", apiHandler::getDriverById)
-                .build();
     }
 
 }

@@ -1,4 +1,4 @@
-package io.microdrive.account.config.security;
+package io.microdrive.accounts.config.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
