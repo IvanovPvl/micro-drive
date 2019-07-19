@@ -1,5 +1,7 @@
 package io.microdrive.accounts.web;
 
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
 import io.microdrive.accounts.domain.Account;
 import io.microdrive.accounts.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.security.KeyPair;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +22,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class AccountsController {
 
     private final AccountService accountService;
+    private final KeyPair keyPair;
 
     @GetMapping("/current")
     public Account getCurrent(@AuthenticationPrincipal Account account) {
@@ -33,6 +39,13 @@ public class AccountsController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create() {
         throw new NotImplementedException();
+    }
+
+    @GetMapping("/.well-known/jwks.json")
+    public Map<String, Object> getKey() {
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAKey key = new RSAKey.Builder(publicKey).build();
+        return new JWKSet(key).toJSONObject();
     }
 
 }
