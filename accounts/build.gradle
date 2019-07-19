@@ -13,6 +13,12 @@ repositories {
 	mavenCentral()
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR2"
+	}
+}
+
 ext {
 	set('lombokVersion', '1.18.6')
 	set('springSecurityOauth2Version', '2.3.6.RELEASE')
@@ -28,6 +34,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth2Version}"
     implementation "org.springframework.security:spring-security-jwt:${springSecurityJwtVersion}"
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
     runtimeOnly "org.glassfish.jaxb:jaxb-runtime:${jaxbRuntimeVersion}"
 

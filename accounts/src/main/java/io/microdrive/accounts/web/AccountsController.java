@@ -18,7 +18,6 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/accounts")
 public class AccountsController {
 
     private final AccountService accountService;
