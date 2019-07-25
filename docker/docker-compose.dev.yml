@@ -2,16 +2,16 @@ version: '3'
 
 services:
 
-  trip-storage:
+  storage:
     image: mongo:4.0.9
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: trip
+      MONGO_INITDB_DATABASE: micro-drive
     volumes:
-      - ./trip-storage/initdb.d:/docker-entrypoint-initdb.d
+      - ./storage/initdb.d:/docker-entrypoint-initdb.d
 
   redis:
     image: redis:5.0
@@ -25,4 +25,4 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_SERVER: trip-storage
+      ME_CONFIG_MONGODB_SERVER: storage

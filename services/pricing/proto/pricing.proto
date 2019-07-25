@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package pricing;
+
+service Pricing {
+  rpc GetPrice(Request) returns (Response);
+}
+
+message Request {
+  uint32 lengthInMeters = 1;
+}
+
+message Response {
+  double price = 1;
+}
