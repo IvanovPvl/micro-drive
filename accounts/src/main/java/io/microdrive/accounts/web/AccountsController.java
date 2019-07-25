@@ -36,8 +36,8 @@ public class AccountsController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void create() {
-        throw new NotImplementedException();
+    public void create(@RequestBody Account account) {
+        accountService.create(account);
     }
 
     @GetMapping("/.well-known/jwks.json")
