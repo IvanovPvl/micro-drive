@@ -90,6 +90,30 @@ func (a *accountsService) CreateDriver(ctx context.Context, req *pb.CreateDriver
 	return nil
 }
 
+func (a *accountsService) GetToken(ctx context.Context, req *pb.GetTokenRequest, res *pb.GetTokenResponse) error {
+	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second)
+	defer cancelFunc()
+	coll := a.mongoClient.Database("microDrive").Collection("accounts")
+
+	var result struct {
+		id       string
+		password []byte
+	}
+	err := coll.FindOne(ctx, bson.M{"username": req.Username}).Decode(&result)
+	if err != nil {
+		return err
+	}
+
+	// TODO: check result for empty
+
+	err = bcrypt.CompareHashAndPassword(result.password, []byte(req.Password))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func main() {
 	service := micro.NewService(
 		micro.Name("micro-drive.api.accounts"),

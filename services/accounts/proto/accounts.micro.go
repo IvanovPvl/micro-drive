@@ -13,6 +13,8 @@ It has these top-level messages:
 	Account
 	Car
 	CreateAccountResponse
+	GetTokenRequest
+	GetTokenResponse
 */
 package accounts
 
@@ -47,6 +49,7 @@ var _ server.Option
 type AccountsService interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
 	CreateDriver(ctx context.Context, in *CreateDriverRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
+	GetToken(ctx context.Context, in *GetTokenRequest, opts ...client.CallOption) (*GetTokenResponse, error)
 }
 
 type accountsService struct {
@@ -87,17 +90,29 @@ func (c *accountsService) CreateDriver(ctx context.Context, in *CreateDriverRequ
 	return out, nil
 }
 
+func (c *accountsService) GetToken(ctx context.Context, in *GetTokenRequest, opts ...client.CallOption) (*GetTokenResponse, error) {
+	req := c.c.NewRequest(c.name, "Accounts.GetToken", in)
+	out := new(GetTokenResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Accounts service
 
 type AccountsHandler interface {
 	CreateUser(context.Context, *CreateUserRequest, *CreateAccountResponse) error
 	CreateDriver(context.Context, *CreateDriverRequest, *CreateAccountResponse) error
+	GetToken(context.Context, *GetTokenRequest, *GetTokenResponse) error
 }
 
 func RegisterAccountsHandler(s server.Server, hdlr AccountsHandler, opts ...server.HandlerOption) error {
 	type accounts interface {
 		CreateUser(ctx context.Context, in *CreateUserRequest, out *CreateAccountResponse) error
 		CreateDriver(ctx context.Context, in *CreateDriverRequest, out *CreateAccountResponse) error
+		GetToken(ctx context.Context, in *GetTokenRequest, out *GetTokenResponse) error
 	}
 	type Accounts struct {
 		accounts
@@ -116,4 +131,8 @@ func (h *accountsHandler) CreateUser(ctx context.Context, in *CreateUserRequest,
 
 func (h *accountsHandler) CreateDriver(ctx context.Context, in *CreateDriverRequest, out *CreateAccountResponse) error {
 	return h.AccountsHandler.CreateDriver(ctx, in, out)
+}
+
+func (h *accountsHandler) GetToken(ctx context.Context, in *GetTokenRequest, out *GetTokenResponse) error {
+	return h.AccountsHandler.GetToken(ctx, in, out)
 }
