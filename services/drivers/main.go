@@ -4,6 +4,9 @@ import (
 	"context"
 	"log"
 	pb "micro-drive/services/drivers/proto"
+	"strconv"
+
+	"github.com/micro/cli"
 
 	"github.com/go-redis/redis"
 	"github.com/micro/go-micro"
@@ -36,13 +39,34 @@ func (d *drivers) ReleaseDriver(ctx context.Context, req *pb.ReleaseDriverReques
 }
 
 func main() {
-	client := redis.NewClient(&redis.Options{})
-
 	service := micro.NewService(
 		micro.Name("micro-drive.api.drivers"),
+		micro.Flags(
+			cli.StringFlag{
+				Name:  "redis-host",
+				Value: "redis",
+				Usage: "The Redis host",
+			},
+			cli.IntFlag{
+				Name:  "redis-port",
+				Value: 6379,
+				Usage: "The Redis port",
+			},
+		),
 	)
 
-	service.Init()
+	var redisPort int
+	var redisHost string
+	service.Init(
+		micro.Action(func(c *cli.Context) {
+			redisPort = c.Int("redis-port")
+			redisHost = c.String("redis-host")
+		}),
+	)
+
+	client := redis.NewClient(&redis.Options{
+		Addr: redisHost + ":" + strconv.Itoa(redisPort),
+	})
 
 	pb.RegisterDriversHandler(service.Server(), &drivers{redisClient: client})
 	if err := service.Run(); err != nil {
