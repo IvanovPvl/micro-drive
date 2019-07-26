@@ -6,10 +6,13 @@ import (
 	pb "micro-drive/services/accounts/proto"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
+
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type accountsService struct {
@@ -17,6 +20,36 @@ type accountsService struct {
 }
 
 func (a *accountsService) CreateAccount(ctx context.Context, req *pb.CreateAccountRequest, res *pb.CreateAccountResponse) error {
+	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second)
+	defer cancelFunc()
+
+	coll := a.mongoClient.Database("microDrive").Collection("accounts")
+	var result struct{}
+	err := coll.FindOne(ctx, bson.M{"username": req.Username, "role": req.Role}).Decode(&result)
+	if err != nil {
+		return err
+	}
+
+	// TODO: check result, return error if not empty
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), 12)
+	if err != nil {
+		return err
+	}
+
+	doc := bson.M{
+		"username":  req.Username,
+		"firstName": req.FirstName,
+		"lastName":  req.LastName,
+		"password":  hash,
+		"role":      req.Role,
+	}
+
+	_, err = coll.InsertOne(ctx, doc)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
