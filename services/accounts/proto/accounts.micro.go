@@ -8,7 +8,10 @@ It is generated from these files:
 	accounts.proto
 
 It has these top-level messages:
-	CreateAccountRequest
+	CreateUserRequest
+	CreateDriverRequest
+	Account
+	Car
 	CreateAccountResponse
 */
 package accounts
@@ -42,7 +45,8 @@ var _ server.Option
 // Client API for Accounts service
 
 type AccountsService interface {
-	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
+	CreateDriver(ctx context.Context, in *CreateDriverRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
 }
 
 type accountsService struct {
@@ -63,8 +67,18 @@ func NewAccountsService(name string, c client.Client) AccountsService {
 	}
 }
 
-func (c *accountsService) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...client.CallOption) (*CreateAccountResponse, error) {
-	req := c.c.NewRequest(c.name, "Accounts.CreateAccount", in)
+func (c *accountsService) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...client.CallOption) (*CreateAccountResponse, error) {
+	req := c.c.NewRequest(c.name, "Accounts.CreateUser", in)
+	out := new(CreateAccountResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountsService) CreateDriver(ctx context.Context, in *CreateDriverRequest, opts ...client.CallOption) (*CreateAccountResponse, error) {
+	req := c.c.NewRequest(c.name, "Accounts.CreateDriver", in)
 	out := new(CreateAccountResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -76,12 +90,14 @@ func (c *accountsService) CreateAccount(ctx context.Context, in *CreateAccountRe
 // Server API for Accounts service
 
 type AccountsHandler interface {
-	CreateAccount(context.Context, *CreateAccountRequest, *CreateAccountResponse) error
+	CreateUser(context.Context, *CreateUserRequest, *CreateAccountResponse) error
+	CreateDriver(context.Context, *CreateDriverRequest, *CreateAccountResponse) error
 }
 
 func RegisterAccountsHandler(s server.Server, hdlr AccountsHandler, opts ...server.HandlerOption) error {
 	type accounts interface {
-		CreateAccount(ctx context.Context, in *CreateAccountRequest, out *CreateAccountResponse) error
+		CreateUser(ctx context.Context, in *CreateUserRequest, out *CreateAccountResponse) error
+		CreateDriver(ctx context.Context, in *CreateDriverRequest, out *CreateAccountResponse) error
 	}
 	type Accounts struct {
 		accounts
@@ -94,6 +110,10 @@ type accountsHandler struct {
 	AccountsHandler
 }
 
-func (h *accountsHandler) CreateAccount(ctx context.Context, in *CreateAccountRequest, out *CreateAccountResponse) error {
-	return h.AccountsHandler.CreateAccount(ctx, in, out)
+func (h *accountsHandler) CreateUser(ctx context.Context, in *CreateUserRequest, out *CreateAccountResponse) error {
+	return h.AccountsHandler.CreateUser(ctx, in, out)
+}
+
+func (h *accountsHandler) CreateDriver(ctx context.Context, in *CreateDriverRequest, out *CreateAccountResponse) error {
+	return h.AccountsHandler.CreateDriver(ctx, in, out)
 }

@@ -3,15 +3,29 @@ syntax = "proto3";
 package accounts;
 
 service Accounts {
-  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateAccountResponse);
+  rpc CreateDriver(CreateDriverRequest) returns (CreateAccountResponse);
 }
 
-message CreateAccountRequest {
+message CreateUserRequest {
+  Account account = 1;
+}
+
+message CreateDriverRequest {
+  Account account = 1;
+  Car car = 2;
+}
+
+message Account {
   string username = 1;
   string firstName = 2;
   string lastName = 3;
   string password = 4;
-  string role = 5;
+}
+
+message Car {
+  string mark = 1;
+  string number = 2;
 }
 
 message CreateAccountResponse {}

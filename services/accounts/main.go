@@ -19,30 +19,67 @@ type accountsService struct {
 	mongoClient *mongo.Client
 }
 
-func (a *accountsService) CreateAccount(ctx context.Context, req *pb.CreateAccountRequest, res *pb.CreateAccountResponse) error {
+func (a *accountsService) CreateUser(ctx context.Context, req *pb.CreateUserRequest, res *pb.CreateAccountResponse) error {
 	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second)
 	defer cancelFunc()
 
+	account := req.Account
 	coll := a.mongoClient.Database("microDrive").Collection("accounts")
 	var result struct{}
-	err := coll.FindOne(ctx, bson.M{"username": req.Username, "role": req.Role}).Decode(&result)
+	err := coll.FindOne(ctx, bson.M{"username": account.Username, "role": "user"}).Decode(&result)
 	if err != nil {
 		return err
 	}
 
 	// TODO: check result, return error if not empty
 
-	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), 12)
+	hash, err := bcrypt.GenerateFromPassword([]byte(account.Password), 12)
 	if err != nil {
 		return err
 	}
 
 	doc := bson.M{
-		"username":  req.Username,
-		"firstName": req.FirstName,
-		"lastName":  req.LastName,
+		"username":  account.Username,
+		"firstName": account.FirstName,
+		"lastName":  account.LastName,
 		"password":  hash,
-		"role":      req.Role,
+		"role":      "user",
+	}
+
+	_, err = coll.InsertOne(ctx, doc)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (a *accountsService) CreateDriver(ctx context.Context, req *pb.CreateDriverRequest, res *pb.CreateAccountResponse) error {
+	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second)
+	defer cancelFunc()
+
+	account := req.Account
+	coll := a.mongoClient.Database("microDrive").Collection("accounts")
+	var result struct{}
+	err := coll.FindOne(ctx, bson.M{"username": account.Username, "role": "driver"}).Decode(&result)
+	if err != nil {
+		return err
+	}
+
+	// TODO: check result, return error if not empty
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(account.Password), 12)
+	if err != nil {
+		return err
+	}
+
+	doc := bson.M{
+		"username":  account.Username,
+		"firstName": account.FirstName,
+		"lastName":  account.LastName,
+		"password":  hash,
+		"role":      "driver",
+		"car":       req.Car,
 	}
 
 	_, err = coll.InsertOne(ctx, doc)
