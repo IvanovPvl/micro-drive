@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 	pb "micro-drive/services/pricing/proto"
 
 	"github.com/micro/go-micro"
@@ -25,5 +26,8 @@ func main() {
 	service.Init()
 
 	pb.RegisterPricingHandler(service.Server(), &pricing{})
-	service.Run()
+	if err := service.Run(); err != nil {
+		log.Fatalf("Failed to start service: %v", err)
+	}
+
 }

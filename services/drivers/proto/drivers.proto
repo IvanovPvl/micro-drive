@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service Drivers {
+  rpc GetFreeDriver(GetFreeDriverRequest) returns (GetFreeDriverResponse);
+  rpc ReleaseDriver(ReleaseDriverRequest) returns (ReleaseDriverResponse);
+}
+
+message GetFreeDriverRequest {}
+
+message GetFreeDriverResponse {
+  string driverId = 1;
+}
+
+message ReleaseDriverRequest {
+  string driverId = 1;
+}
+
+message ReleaseDriverResponse {}
