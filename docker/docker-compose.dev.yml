@@ -9,7 +9,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: micro-drive
+      MONGO_INITDB_DATABASE: microDrive
     volumes:
       - ./storage/initdb.d:/docker-entrypoint-initdb.d
 

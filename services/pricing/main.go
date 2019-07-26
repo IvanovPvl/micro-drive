@@ -10,11 +10,11 @@ import (
 	"github.com/micro/go-micro"
 )
 
-type pricing struct {
+type pricingService struct {
 	priceForKm float64
 }
 
-func (p *pricing) GetPrice(ctx context.Context, req *pb.Request, res *pb.Response) error {
+func (p *pricingService) GetPrice(ctx context.Context, req *pb.Request, res *pb.Response) error {
 	price := p.priceForKm * (float64)(req.LengthInMeters)
 	res.Price = price
 	return nil
@@ -38,7 +38,7 @@ func main() {
 		}),
 	)
 
-	pb.RegisterPricingHandler(service.Server(), &pricing{priceForKm: priceForKm})
+	pb.RegisterPricingHandler(service.Server(), &pricingService{priceForKm: priceForKm})
 	if err := service.Run(); err != nil {
 		log.Fatalf("Failed to start service: %v", err)
 	}

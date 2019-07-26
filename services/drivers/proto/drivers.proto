@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package drivers;
+
 service Drivers {
   rpc GetFreeDriver(GetFreeDriverRequest) returns (GetFreeDriverResponse);
   rpc ReleaseDriver(ReleaseDriverRequest) returns (ReleaseDriverResponse);

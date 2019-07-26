@@ -1,7 +1,7 @@
 db.createUser({
-    user: 'trip',
+    user: 'microDrive',
     pwd: 'password',
     roles: [
-        { role: 'dbOwner', db: 'trip' }
+        { role: 'dbOwner', db: 'microDrive' }
     ]
 });
