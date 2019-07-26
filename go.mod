@@ -6,6 +6,7 @@ require (
 	github.com/go-redis/redis v0.0.0-20190725120116-ec312e4dd5bf
 	github.com/golang/protobuf v1.3.2
 	github.com/json-iterator/go v1.1.7 // indirect
+	github.com/micro/cli v0.2.0
 	github.com/micro/go-micro v1.7.0
 	github.com/miekg/dns v1.1.15 // indirect
 	github.com/nats-io/nats-server/v2 v2.0.2 // indirect
