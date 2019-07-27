@@ -5,7 +5,18 @@ package accounts;
 service Accounts {
   rpc CreateUser(CreateUserRequest) returns (CreateAccountResponse);
   rpc CreateDriver(CreateDriverRequest) returns (CreateAccountResponse);
+  rpc GetDriver(GetDriverRequest) returns (GetDriverResponse);
   rpc GetToken(GetTokenRequest) returns (GetTokenResponse);
+}
+
+message GetDriverRequest {
+  string id = 1;
+}
+
+message GetDriverResponse {
+  string firstName = 1;
+  string lastName = 2;
+  Car car = 3;
 }
 
 message CreateUserRequest {

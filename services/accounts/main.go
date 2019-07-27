@@ -7,6 +7,8 @@ import (
 	pb "micro-drive/services/accounts/proto"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
+
 	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/micro/cli"
@@ -80,7 +82,7 @@ func (a *accountsService) CreateDriver(ctx context.Context, req *pb.CreateDriver
 		"lastName":  account.LastName,
 		"password":  hash,
 		"role":      "driver",
-		"car":       req.Car,
+		"car":       bson.M{"mark": req.Car.Mark, "number": req.Car.Number},
 		"createdAt": time.Now(),
 	}
 
@@ -88,6 +90,40 @@ func (a *accountsService) CreateDriver(ctx context.Context, req *pb.CreateDriver
 	if err != nil {
 		return err
 	}
+
+	return nil
+}
+
+type Account struct {
+	FirstName string `bson:"firstName"`
+	LastName  string `bson:"lastName"`
+	Car       Car    `bson:"car"`
+}
+
+type Car struct {
+	Mark   string `bson:"mark"`
+	Number string `bson:"number"`
+}
+
+func (a *accountsService) GetDriver(ctx context.Context, req *pb.GetDriverRequest, res *pb.GetDriverResponse) error {
+	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second)
+	defer cancelFunc()
+	coll := a.mongoClient.Database("microDrive").Collection("accounts")
+
+	var result Account
+	id, err := primitive.ObjectIDFromHex(req.Id)
+	if err != nil {
+		return err
+	}
+	err = coll.FindOne(ctx, bson.M{"_id": id, "role": "driver"}).Decode(&result)
+	if err != nil {
+		// Driver not found
+		return err
+	}
+
+	res.FirstName = result.FirstName
+	res.LastName = result.LastName
+	res.Car = &pb.Car{Mark: result.Car.Mark, Number: result.Car.Number}
 
 	return nil
 }
