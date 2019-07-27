@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	pb "micro-drive/services/accounts/proto"
 	"time"
@@ -25,13 +26,13 @@ func (a *accountsService) CreateUser(ctx context.Context, req *pb.CreateUserRequ
 
 	account := req.Account
 	coll := a.mongoClient.Database("microDrive").Collection("accounts")
+
 	var result struct{}
 	err := coll.FindOne(ctx, bson.M{"username": account.Username, "role": "user"}).Decode(&result)
-	if err != nil {
-		return err
+	if err == nil {
+		// FindOne return document
+		return errors.New("User already exists")
 	}
-
-	// TODO: check result, return error if not empty
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(account.Password), 12)
 	if err != nil {
@@ -44,6 +45,7 @@ func (a *accountsService) CreateUser(ctx context.Context, req *pb.CreateUserRequ
 		"lastName":  account.LastName,
 		"password":  hash,
 		"role":      "user",
+		"createdAt": time.Now(),
 	}
 
 	_, err = coll.InsertOne(ctx, doc)
@@ -62,11 +64,10 @@ func (a *accountsService) CreateDriver(ctx context.Context, req *pb.CreateDriver
 	coll := a.mongoClient.Database("microDrive").Collection("accounts")
 	var result struct{}
 	err := coll.FindOne(ctx, bson.M{"username": account.Username, "role": "driver"}).Decode(&result)
-	if err != nil {
-		return err
+	if err == nil {
+		// FindOne return document
+		return errors.New("Driver already exists")
 	}
-
-	// TODO: check result, return error if not empty
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(account.Password), 12)
 	if err != nil {
@@ -80,6 +81,7 @@ func (a *accountsService) CreateDriver(ctx context.Context, req *pb.CreateDriver
 		"password":  hash,
 		"role":      "driver",
 		"car":       req.Car,
+		"createdAt": time.Now(),
 	}
 
 	_, err = coll.InsertOne(ctx, doc)
