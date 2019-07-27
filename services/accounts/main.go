@@ -11,6 +11,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/micro/cli"
 	"github.com/micro/go-micro"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -135,20 +136,31 @@ func (a *accountsService) GetToken(ctx context.Context, req *pb.GetTokenRequest,
 	coll := a.mongoClient.Database("microDrive").Collection("accounts")
 
 	var result struct {
-		id       string
-		password []byte
+		ID       primitive.ObjectID `bson:"_id"`
+		Password []byte             `bson:"password"`
 	}
 	err := coll.FindOne(ctx, bson.M{"username": req.Username}).Decode(&result)
+
 	if err != nil {
 		return err
 	}
 
-	// TODO: check result for empty
+	err = bcrypt.CompareHashAndPassword(result.Password, []byte(req.Password))
+	if err != nil {
+		return errors.New("Username or password are wrong")
+	}
 
-	err = bcrypt.CompareHashAndPassword(result.password, []byte(req.Password))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": result.ID.Hex(),
+		"exp": time.Now().Add(time.Hour).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte("secret"))
 	if err != nil {
 		return err
 	}
+
+	res.Token = tokenString
 
 	return nil
 }

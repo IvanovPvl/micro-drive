@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.43.0 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/fsouza/go-dockerclient v1.4.2 // indirect
 	github.com/go-kit/kit v0.9.0 // indirect
 	github.com/go-redis/redis v0.0.0-20190725120116-ec312e4dd5bf
