@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package drivers;
 
+import "micro-drive/services/accounts/proto/accounts.proto";
+
 service Drivers {
   rpc GetFreeDriver(GetFreeDriverRequest) returns (GetFreeDriverResponse);
   rpc ReleaseDriver(ReleaseDriverRequest) returns (ReleaseDriverResponse);
@@ -10,7 +12,7 @@ service Drivers {
 message GetFreeDriverRequest {}
 
 message GetFreeDriverResponse {
-  string driverId = 1;
+  accounts.Driver driver = 1;
 }
 
 message ReleaseDriverRequest {

@@ -2,9 +2,12 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
+	accounts "micro-drive/services/accounts/proto"
 	pb "micro-drive/services/drivers/proto"
 	"strconv"
+	"time"
 
 	"github.com/micro/cli"
 
@@ -13,19 +16,29 @@ import (
 )
 
 type drivers struct {
-	redisClient *redis.Client
+	redisClient    *redis.Client
+	accountsClient accounts.AccountsService
 }
 
 const freeDrivers = "free_drivers"
 
 func (d *drivers) GetFreeDriver(ctx context.Context, req *pb.GetFreeDriverRequest, res *pb.GetFreeDriverResponse) error {
 	result, err := d.redisClient.SPop(freeDrivers).Result()
+	if err == redis.Nil {
+		return errors.New("No free drivers")
+	} else if err != nil {
+		return err
+	}
+
+	ctx, cancelFunc := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancelFunc()
+
+	driver, err := d.accountsClient.GetDriver(ctx, &accounts.GetDriverRequest{Id: result})
 	if err != nil {
 		return err
 	}
 
-	// TODO: what happens if set is empty?
-	res.DriverId = result
+	res.Driver = driver
 	return nil
 }
 
@@ -68,7 +81,8 @@ func main() {
 		Addr: redisHost + ":" + strconv.Itoa(redisPort),
 	})
 
-	pb.RegisterDriversHandler(service.Server(), &drivers{redisClient: client})
+	accountsClient := accounts.NewAccountsService("micro-drive.api.accounts", service.Client())
+	pb.RegisterDriversHandler(service.Server(), &drivers{redisClient: client, accountsClient: accountsClient})
 	if err := service.Run(); err != nil {
 		log.Fatalf("Failed to start service: %v", err)
 	}

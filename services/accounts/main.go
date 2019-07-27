@@ -94,23 +94,23 @@ func (a *accountsService) CreateDriver(ctx context.Context, req *pb.CreateDriver
 	return nil
 }
 
-type Account struct {
+type account struct {
 	FirstName string `bson:"firstName"`
 	LastName  string `bson:"lastName"`
-	Car       Car    `bson:"car"`
+	Car       car    `bson:"car"`
 }
 
-type Car struct {
+type car struct {
 	Mark   string `bson:"mark"`
 	Number string `bson:"number"`
 }
 
-func (a *accountsService) GetDriver(ctx context.Context, req *pb.GetDriverRequest, res *pb.GetDriverResponse) error {
+func (a *accountsService) GetDriver(ctx context.Context, req *pb.GetDriverRequest, res *pb.Driver) error {
 	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Second)
 	defer cancelFunc()
 	coll := a.mongoClient.Database("microDrive").Collection("accounts")
 
-	var result Account
+	var result account
 	id, err := primitive.ObjectIDFromHex(req.Id)
 	if err != nil {
 		return err
@@ -121,6 +121,7 @@ func (a *accountsService) GetDriver(ctx context.Context, req *pb.GetDriverReques
 		return err
 	}
 
+	res.Id = req.Id
 	res.FirstName = result.FirstName
 	res.LastName = result.LastName
 	res.Car = &pb.Car{Mark: result.Car.Mark, Number: result.Car.Number}

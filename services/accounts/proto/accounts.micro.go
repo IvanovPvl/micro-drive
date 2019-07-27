@@ -36,7 +36,7 @@ var _ server.Option
 type AccountsService interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
 	CreateDriver(ctx context.Context, in *CreateDriverRequest, opts ...client.CallOption) (*CreateAccountResponse, error)
-	GetDriver(ctx context.Context, in *GetDriverRequest, opts ...client.CallOption) (*GetDriverResponse, error)
+	GetDriver(ctx context.Context, in *GetDriverRequest, opts ...client.CallOption) (*Driver, error)
 	GetToken(ctx context.Context, in *GetTokenRequest, opts ...client.CallOption) (*GetTokenResponse, error)
 }
 
@@ -78,9 +78,9 @@ func (c *accountsService) CreateDriver(ctx context.Context, in *CreateDriverRequ
 	return out, nil
 }
 
-func (c *accountsService) GetDriver(ctx context.Context, in *GetDriverRequest, opts ...client.CallOption) (*GetDriverResponse, error) {
+func (c *accountsService) GetDriver(ctx context.Context, in *GetDriverRequest, opts ...client.CallOption) (*Driver, error) {
 	req := c.c.NewRequest(c.name, "Accounts.GetDriver", in)
-	out := new(GetDriverResponse)
+	out := new(Driver)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ func (c *accountsService) GetToken(ctx context.Context, in *GetTokenRequest, opt
 type AccountsHandler interface {
 	CreateUser(context.Context, *CreateUserRequest, *CreateAccountResponse) error
 	CreateDriver(context.Context, *CreateDriverRequest, *CreateAccountResponse) error
-	GetDriver(context.Context, *GetDriverRequest, *GetDriverResponse) error
+	GetDriver(context.Context, *GetDriverRequest, *Driver) error
 	GetToken(context.Context, *GetTokenRequest, *GetTokenResponse) error
 }
 
@@ -111,7 +111,7 @@ func RegisterAccountsHandler(s server.Server, hdlr AccountsHandler, opts ...serv
 	type accounts interface {
 		CreateUser(ctx context.Context, in *CreateUserRequest, out *CreateAccountResponse) error
 		CreateDriver(ctx context.Context, in *CreateDriverRequest, out *CreateAccountResponse) error
-		GetDriver(ctx context.Context, in *GetDriverRequest, out *GetDriverResponse) error
+		GetDriver(ctx context.Context, in *GetDriverRequest, out *Driver) error
 		GetToken(ctx context.Context, in *GetTokenRequest, out *GetTokenResponse) error
 	}
 	type Accounts struct {
@@ -133,7 +133,7 @@ func (h *accountsHandler) CreateDriver(ctx context.Context, in *CreateDriverRequ
 	return h.AccountsHandler.CreateDriver(ctx, in, out)
 }
 
-func (h *accountsHandler) GetDriver(ctx context.Context, in *GetDriverRequest, out *GetDriverResponse) error {
+func (h *accountsHandler) GetDriver(ctx context.Context, in *GetDriverRequest, out *Driver) error {
 	return h.AccountsHandler.GetDriver(ctx, in, out)
 }
 
