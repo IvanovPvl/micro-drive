@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package routing;
+
+service Routing {
+  rpc GetRoute(GetRouteRequest) returns (Route);
+}
+
+message Point {
+  float latitude = 1;
+  float longitude = 2;
+}
+
+message GetRouteRequest {
+  Point from = 1;
+  Point to = 2;
+}
+
+message Route {
+  uint32 lengthInMeters = 1;
+  uint32 travelTimeInSeconds = 2;
+  uint32 trafficDelayInSeconds = 3;
+  repeated Point points = 4;
+}
