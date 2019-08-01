@@ -8,10 +8,10 @@ spring:
     active: ${PROFILE:dev}
   data:
     mongodb:
-      database: ${MD_DATABASE_NAME:trip}
+      database: ${MD_DATABASE_NAME:microDrive}
       host: ${MD_DATABASE_HOST:localhost}
       port: ${MD_DATABASE_PORT:27017}
-      username: ${MD_DATABASE_USERNAME:trip}
+      username: ${MD_DATABASE_USERNAME:microDrive}
       password: ${MD_DATABASE_PASSWORD:password}
 
 eureka:
