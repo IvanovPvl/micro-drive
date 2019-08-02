@@ -10,13 +10,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AccountClient {
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     public Mono<Account> getAccount(String id) {
-        return webClient.get()
-                .uri("/drivers/%s" + id)
+        return webClientBuilder.baseUrl("http://accounts").build().get()
+                .uri("/drivers/" + id)
                 .retrieve()
                 .bodyToMono(Account.class);
+
     }
 
 }

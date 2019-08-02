@@ -28,6 +28,7 @@ repositories {
 dependencies {
     final JAXB_RUNTIME_VERSION = '2.3.2'
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     

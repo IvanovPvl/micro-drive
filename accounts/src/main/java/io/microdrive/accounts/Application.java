@@ -1,7 +1,9 @@
 package io.microdrive.accounts;
 
 import io.microdrive.accounts.domain.Account;
+import io.microdrive.accounts.domain.Car;
 import io.microdrive.accounts.repository.AccountRepository;
+import io.microdrive.accounts.repository.CarRepository;
 import io.microdrive.accounts.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -22,6 +24,7 @@ public class Application {
 
     private final AccountRepository repository;
     private final AccountService accountService;
+    private final CarRepository carRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -40,6 +43,25 @@ public class Application {
 
         if (!repository.findByUsername(user.getUsername()).isPresent()) {
             accountService.create(user);
+        }
+
+        val driver = Account.builder()
+                .username("sam")
+                .firstName("Sam")
+                .lastName("Winston")
+                .password("123")
+                .role("driver")
+                .build();
+
+        var car = Car.builder()
+                .mark("Toyota")
+                .number("AS123GD")
+                .build();
+
+        car = carRepository.save(car);
+        driver.setCar(car);
+        if (!repository.findByUsername(driver.getUsername()).isPresent()) {
+            accountService.create(driver);
         }
     }
 

@@ -5,12 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
-import org.springframework.data.redis.core.ReactiveRedisTemplate;
-import org.springframework.data.redis.core.ReactiveSetOperations;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
@@ -30,30 +24,10 @@ public class Application {
     }
 
     @Bean
-    ReactiveSetOperations<String, String> reactiveSetOperations(ReactiveRedisConnectionFactory cf) {
-        RedisSerializationContext<String, String> context = RedisSerializationContext
-                .<String, String>newSerializationContext(new StringRedisSerializer())
-                .key(new StringRedisSerializer())
-                .value(new StringRedisSerializer())
-                .hashKey(new StringRedisSerializer())
-                .hashKey(new StringRedisSerializer())
-                .build();
-
-        return new ReactiveRedisTemplate<>(cf, context).opsForSet();
-    }
-
-    @Bean
     RouterFunction<ServerResponse> routes() {
         return route()
                 .POST("/request", apiHandler::request)
                 .POST("/release", accept(APPLICATION_JSON), apiHandler::release)
-                .build();
-    }
-
-    @Bean
-    public WebClient accountsWebClient() {
-        return WebClient.builder()
-                .baseUrl("accounts")
                 .build();
     }
 
