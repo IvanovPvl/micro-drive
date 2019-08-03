@@ -7,12 +7,17 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Configuration
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
+    private static final String[] WHITE_LIST = new String[]{
+            "/create",
+            "/drivers",
+            ".well-known/jwks.json"
+    };
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/create").permitAll()
-                .antMatchers("/drivers/**").permitAll()
+                .antMatchers(WHITE_LIST).permitAll()
                 .anyRequest().authenticated();
     }
 

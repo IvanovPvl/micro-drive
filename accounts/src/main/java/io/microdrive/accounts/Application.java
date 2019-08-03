@@ -58,9 +58,9 @@ public class Application {
                 .number("AS123GD")
                 .build();
 
-        car = carRepository.save(car);
-        driver.setCar(car);
         if (!repository.findByUsername(driver.getUsername()).isPresent()) {
+            car = carRepository.save(car);
+            driver.setCar(car);
             accountService.create(driver);
         }
     }
