@@ -33,7 +33,7 @@ public class Trip {
 
     public enum Status {
         NEW,
-        EXPECTED,
+        CLAIMED,
         IN_PROGRESS,
         FINISHED,
     }

@@ -3,6 +3,9 @@ package io.microdrive.trips.service;
 import io.microdrive.trips.domain.Trip;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -14,6 +17,22 @@ public class TripService {
 
     public Mono<Trip> addTrip(Trip trip) {
         return mongoTemplate.save(trip);
+    }
+
+    public Mono<Boolean> claim(String id, String driverId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id))
+                .addCriteria(Criteria.where("status").is(Trip.Status.NEW.name()));
+        Update update = new Update();
+        update.set("driverId", driverId);
+        update.set("status", Trip.Status.CLAIMED);
+
+        return update(query, update);
+    }
+
+    private Mono<Boolean> update(Query query, Update update) {
+        return this.mongoTemplate.updateFirst(query, update, Trip.class)
+                .flatMap(r -> r.getModifiedCount() == 1 ? Mono.just(true) : Mono.just(false));
     }
 
 }

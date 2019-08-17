@@ -1,6 +1,6 @@
 package io.microdrive.drivers.clients;
 
-import io.microdrive.drivers.dto.Account;
+import io.microdrive.core.dto.drivers.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;

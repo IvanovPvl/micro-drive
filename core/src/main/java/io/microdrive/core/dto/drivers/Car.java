@@ -1,4 +1,4 @@
-package io.microdrive.drivers.dto;
+package io.microdrive.core.dto.drivers;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

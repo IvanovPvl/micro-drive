@@ -1,7 +1,7 @@
 package io.microdrive.drivers;
 
-import io.microdrive.drivers.dto.Account;
-import io.microdrive.drivers.dto.RequestFree;
+import io.microdrive.core.dto.drivers.Account;
+import io.microdrive.core.dto.drivers.ReleaseRequest;
 import io.microdrive.drivers.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -24,8 +24,8 @@ public class ApiHandler {
     }
 
     Mono<ServerResponse> release(ServerRequest request) {
-        return request.bodyToMono(RequestFree.class)
-                .map(RequestFree::getDriverId)
+        return request.bodyToMono(ReleaseRequest.class)
+                .map(ReleaseRequest::getDriverId)
                 .flatMap(driverService::release)
                 .flatMap(l -> Mono.empty());
     }

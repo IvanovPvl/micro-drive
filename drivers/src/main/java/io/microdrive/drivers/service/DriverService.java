@@ -1,7 +1,7 @@
 package io.microdrive.drivers.service;
 
+import io.microdrive.core.dto.drivers.Account;
 import io.microdrive.drivers.clients.AccountClient;
-import io.microdrive.drivers.dto.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ReactiveSetOperations;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,10 @@
-package io.microdrive.drivers.dto;
+package io.microdrive.core.dto.drivers;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RequestFree {
+public class ReleaseRequest {
     private String driverId;
 }

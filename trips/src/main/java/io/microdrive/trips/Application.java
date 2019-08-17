@@ -25,7 +25,9 @@ public class Application {
 
     @Bean
     RouterFunction<ServerResponse> routes() {
-        return route().POST("/info", accept(APPLICATION_JSON), apiHandler::info).build();
+        return route().POST("/user/info", accept(APPLICATION_JSON), apiHandler::info)
+                .POST("/user/claim", accept(APPLICATION_JSON), apiHandler::claim)
+                .build();
     }
 
 }
