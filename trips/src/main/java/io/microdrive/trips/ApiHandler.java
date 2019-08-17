@@ -8,6 +8,7 @@ import io.microdrive.trips.clients.PricingClient;
 import io.microdrive.trips.clients.RoutingClient;
 import io.microdrive.trips.domain.Trip;
 import io.microdrive.trips.dto.ClaimRequest;
+import io.microdrive.trips.dto.StartRequest;
 import io.microdrive.trips.service.TripService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -62,6 +63,13 @@ class ApiHandler {
                 });
 
         return ok().body(accountMono, Account.class);
+    }
+
+    Mono<ServerResponse> start(ServerRequest request) {
+        val startRequest = request.bodyToMono(StartRequest.class);
+        val driverId = request.headers().header("x-driver-id").get(0);
+        val result = startRequest.flatMap(r -> tripService.claim(r.getTripId(), driverId));
+        return ok().build(result.then());
     }
 
 }

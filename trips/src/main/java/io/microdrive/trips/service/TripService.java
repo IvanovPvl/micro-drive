@@ -30,6 +30,22 @@ public class TripService {
         return update(query, update);
     }
 
+    /**
+     * Set IN_PROGRESS status to trip
+     *
+     * @param id tripId
+     * @return Mono result
+     */
+    public Mono<Boolean> startTrip(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id))
+                .addCriteria(Criteria.where("status").is(Trip.Status.CLAIMED.name()));
+        Update update = new Update();
+        update.set("status", Trip.Status.IN_PROGRESS);
+
+        return this.update(query, update);
+    }
+
     private Mono<Boolean> update(Query query, Update update) {
         return this.mongoTemplate.updateFirst(query, update, Trip.class)
                 .flatMap(r -> r.getModifiedCount() == 1 ? Mono.just(true) : Mono.just(false));

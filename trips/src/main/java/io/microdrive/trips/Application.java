@@ -27,6 +27,7 @@ public class Application {
     RouterFunction<ServerResponse> routes() {
         return route().POST("/user/info", accept(APPLICATION_JSON), apiHandler::info)
                 .POST("/user/claim", accept(APPLICATION_JSON), apiHandler::claim)
+                .POST("/driver/start", accept(APPLICATION_JSON), apiHandler::start)
                 .build();
     }
 
