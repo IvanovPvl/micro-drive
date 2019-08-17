@@ -1,4 +1,4 @@
-package io.microdrive.routing.dto;
+package io.microdrive.core.dto.routing;
 
 import lombok.Builder;
 import lombok.Data;

@@ -7,3 +7,5 @@ include 'accounts'
 include 'gateway'
 include 'routing'
 include 'trips'
+include 'core'
+

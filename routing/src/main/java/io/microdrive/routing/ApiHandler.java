@@ -1,7 +1,7 @@
 package io.microdrive.routing;
 
-import io.microdrive.routing.dto.GetRouteRequest;
-import io.microdrive.routing.dto.RouteInfo;
+import io.microdrive.core.dto.routing.RouteInfo;
+import io.microdrive.core.dto.routing.RouteRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class ApiHandler {
     private final RouteProvider routeProvider;
 
     Mono<ServerResponse> getRoute(ServerRequest request) {
-        val routeInfoMono = request.bodyToMono(GetRouteRequest.class)
+        val routeInfoMono = request.bodyToMono(RouteRequest.class)
                 .flatMap(r -> routeProvider.calculateRoute(r.getFrom(), r.getTo()));
 
         return ok().body(routeInfoMono, RouteInfo.class);

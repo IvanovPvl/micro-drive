@@ -1,4 +1,4 @@
-package io.microdrive.routing.dto;
+package io.microdrive.core.dto.routing;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetRouteRequest {
+public class RouteRequest {
     private Point from;
     private Point to;
 }

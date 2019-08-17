@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'io.microdrive'
+version '0.1.0'
+
+sourceCompatibility = 1.12
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('lombokVersion', '1.18.6')
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}

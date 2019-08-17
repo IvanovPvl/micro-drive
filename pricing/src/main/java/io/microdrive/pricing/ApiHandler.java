@@ -1,7 +1,7 @@
 package io.microdrive.pricing;
 
-import io.microdrive.pricing.dto.RequestInfo;
-import io.microdrive.pricing.dto.ResponseInfo;
+import io.microdrive.core.dto.pricing.PricingInfo;
+import io.microdrive.core.dto.pricing.PricingRequest;
 import io.microdrive.pricing.service.PriceService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -19,11 +19,11 @@ public class ApiHandler {
     private final PriceService priceService;
 
     Mono<ServerResponse> calculatePrice(ServerRequest request) {
-        val responseInfoMono = request.bodyToMono(RequestInfo.class)
+        val responseInfoMono = request.bodyToMono(PricingRequest.class)
                 .map(priceService::calculate)
-                .map(price -> ResponseInfo.builder().price(price).build());
+                .map(price -> PricingInfo.builder().price(price).build());
 
-        return ok().body(responseInfoMono, ResponseInfo.class);
+        return ok().body(responseInfoMono, PricingInfo.class);
     }
 
 }

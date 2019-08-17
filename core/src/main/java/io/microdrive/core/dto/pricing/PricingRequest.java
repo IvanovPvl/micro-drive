@@ -1,12 +1,12 @@
-package io.microdrive.pricing.dto;
+package io.microdrive.core.dto.pricing;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 
 @Data
 @NoArgsConstructor
-public class RequestInfo {
+@AllArgsConstructor
+public class PricingRequest {
     private int distanceInMeters;
 }

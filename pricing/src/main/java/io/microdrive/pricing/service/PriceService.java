@@ -1,7 +1,7 @@
 package io.microdrive.pricing.service;
 
-import io.microdrive.pricing.dto.RequestInfo;
+import io.microdrive.core.dto.pricing.PricingRequest;
 
 public interface PriceService {
-    double calculate(RequestInfo info);
+    double calculate(PricingRequest request);
 }
