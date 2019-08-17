@@ -36,14 +36,30 @@ public class TripService {
      * @param id tripId
      * @return Mono result
      */
-    public Mono<Boolean> startTrip(String id) {
+    public Mono<Boolean> start(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id))
                 .addCriteria(Criteria.where("status").is(Trip.Status.CLAIMED.name()));
         Update update = new Update();
         update.set("status", Trip.Status.IN_PROGRESS);
 
-        return this.update(query, update);
+        return update(query, update);
+    }
+
+    /**
+     * Set FINISHED status to trip
+     *
+     * @param id tripId
+     * @return Mono result
+     */
+    public Mono<Boolean> finish(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id))
+                .addCriteria(Criteria.where("status").is(Trip.Status.IN_PROGRESS.name()));
+        Update update = new Update();
+        update.set("status", Trip.Status.FINISHED);
+
+        return update(query, update);
     }
 
     private Mono<Boolean> update(Query query, Update update) {

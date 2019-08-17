@@ -14,7 +14,7 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 
 @Component
 @RequiredArgsConstructor
-public class ApiHandler {
+class ApiHandler {
 
     private final DriverService driverService;
 
@@ -24,10 +24,11 @@ public class ApiHandler {
     }
 
     Mono<ServerResponse> release(ServerRequest request) {
-        return request.bodyToMono(ReleaseRequest.class)
+        val result = request.bodyToMono(ReleaseRequest.class)
                 .map(ReleaseRequest::getDriverId)
-                .flatMap(driverService::release)
-                .flatMap(l -> Mono.empty());
+                .flatMap(driverService::release);
+
+        return ok().build(result.then());
     }
 
 }

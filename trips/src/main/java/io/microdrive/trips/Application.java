@@ -28,6 +28,7 @@ public class Application {
         return route().POST("/user/info", accept(APPLICATION_JSON), apiHandler::info)
                 .POST("/user/claim", accept(APPLICATION_JSON), apiHandler::claim)
                 .POST("/driver/start", accept(APPLICATION_JSON), apiHandler::start)
+                .POST("/driver/finish", accept(APPLICATION_JSON), apiHandler::finish)
                 .build();
     }
 
