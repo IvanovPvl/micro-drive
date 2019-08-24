@@ -1,6 +1,7 @@
 package io.microdrive.trips;
 
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -25,10 +26,22 @@ public class Application {
 
     @Bean
     RouterFunction<ServerResponse> routes() {
-        return route().POST("/user/info", accept(APPLICATION_JSON), apiHandler::info)
-                .POST("/user/claim", accept(APPLICATION_JSON), apiHandler::claim)
-                .POST("/driver/start", accept(APPLICATION_JSON), apiHandler::start)
-                .POST("/driver/finish", accept(APPLICATION_JSON), apiHandler::finish)
+        val user = route().nest(
+                accept(APPLICATION_JSON),
+                b -> b.POST("/info", apiHandler::info)
+                        .POST("/claim", apiHandler::claim)
+        ).build();
+
+        val driver = route().nest(
+                accept(APPLICATION_JSON),
+                b -> b.POST("/start", apiHandler::start)
+                        .POST("/finish", apiHandler::finish)
+                        .POST("/check", apiHandler::check)
+        ).build();
+
+        return route()
+                .path("/user", () -> user)
+                .path("/driver", () -> driver)
                 .build();
     }
 

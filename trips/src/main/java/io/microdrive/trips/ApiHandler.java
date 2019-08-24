@@ -45,7 +45,6 @@ class ApiHandler {
                             .status(Trip.Status.NEW)
                             .build();
                     return tripService.addTrip(trip);
-
                 });
 
         return ok().body(tripMono, Trip.class);
@@ -76,6 +75,12 @@ class ApiHandler {
         val finishRequest = request.bodyToMono(FinishRequest.class);
         val result = finishRequest.flatMap(r -> tripService.finish(r.getTripId()));
         return ok().build(result.then());
+    }
+
+    Mono<ServerResponse> check(ServerRequest request) {
+        val driverId = request.headers().header("x-user-id").get(0);
+        val result = tripService.findClaimedTripForDriver(driverId); // TODO: check if not found
+        return ok().body(result, Trip.class);
     }
 
 }

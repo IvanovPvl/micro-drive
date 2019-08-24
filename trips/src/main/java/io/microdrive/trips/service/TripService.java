@@ -62,8 +62,22 @@ public class TripService {
         return update(query, update);
     }
 
+    /**
+     * Find claimed trip for driver
+     *
+     * @param driverId driverId
+     * @return Mono
+     */
+    public Mono<Trip> findClaimedTripForDriver(String driverId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(driverId))
+                .addCriteria(Criteria.where("status").is(Trip.Status.CLAIMED.name()));
+
+        return mongoTemplate.findOne(query, Trip.class);
+    }
+
     private Mono<Boolean> update(Query query, Update update) {
-        return this.mongoTemplate.updateFirst(query, update, Trip.class)
+        return mongoTemplate.updateFirst(query, update, Trip.class)
                 .flatMap(r -> r.getModifiedCount() == 1 ? Mono.just(true) : Mono.just(false));
     }
 
