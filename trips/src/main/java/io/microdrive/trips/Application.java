@@ -37,6 +37,7 @@ public class Application {
                 b -> b.POST("/start", apiHandler::start)
                         .POST("/finish", apiHandler::finish)
                         .POST("/check", apiHandler::check)
+                        .POST("/locations", apiHandler::createLocation)
         ).build();
 
         return route()

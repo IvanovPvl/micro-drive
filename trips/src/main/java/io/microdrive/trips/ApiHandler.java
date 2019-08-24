@@ -6,13 +6,17 @@ import io.microdrive.core.dto.routing.RouteRequest;
 import io.microdrive.trips.clients.DriversClient;
 import io.microdrive.trips.clients.PricingClient;
 import io.microdrive.trips.clients.RoutingClient;
+import io.microdrive.trips.domain.Location;
 import io.microdrive.trips.domain.Trip;
 import io.microdrive.trips.dto.ClaimRequest;
+import io.microdrive.trips.dto.CreateLocationRequest;
 import io.microdrive.trips.dto.FinishRequest;
 import io.microdrive.trips.dto.StartRequest;
+import io.microdrive.trips.repository.LocationRepository;
 import io.microdrive.trips.service.TripService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -28,7 +32,9 @@ class ApiHandler {
     private final PricingClient pricingClient;
     private final TripService tripService;
     private final DriversClient driversClient;
+    private final LocationRepository locationRepository;
 
+    @NonNull
     Mono<ServerResponse> info(ServerRequest request) {
         val requestMono = request.bodyToMono(RouteRequest.class);
         val userId = request.headers().header("x-user-id").get(0);
@@ -50,6 +56,7 @@ class ApiHandler {
         return ok().body(tripMono, Trip.class);
     }
 
+    @NonNull
     Mono<ServerResponse> claim(ServerRequest request) {
         // TODO: handle no free drivers
         // TODO: handle trip not found
@@ -65,22 +72,40 @@ class ApiHandler {
         return ok().body(accountMono, Account.class);
     }
 
+    @NonNull
     Mono<ServerResponse> start(ServerRequest request) {
         val startRequest = request.bodyToMono(StartRequest.class);
         val result = startRequest.flatMap(r -> tripService.start(r.getTripId()));
         return ok().build(result.then());
     }
 
+    @NonNull
     Mono<ServerResponse> finish(ServerRequest request) {
         val finishRequest = request.bodyToMono(FinishRequest.class);
         val result = finishRequest.flatMap(r -> tripService.finish(r.getTripId()));
         return ok().build(result.then());
     }
 
+    @NonNull
     Mono<ServerResponse> check(ServerRequest request) {
         val driverId = request.headers().header("x-user-id").get(0);
         val result = tripService.findClaimedTripForDriver(driverId); // TODO: check if not found
         return ok().body(result, Trip.class);
+    }
+
+    @NonNull
+    Mono<ServerResponse> createLocation(ServerRequest request) {
+        val locationRequest = request.bodyToMono(CreateLocationRequest.class);
+        val result = locationRequest.flatMap(r -> {
+            val location = Location.builder()
+                    .latitude(r.getLatitude())
+                    .longitude(r.getLongitude())
+                    .tripId(r.getTripId())
+                    .build();
+            return locationRepository.save(location);
+        });
+
+        return ok().build(result.then());
     }
 
 }
