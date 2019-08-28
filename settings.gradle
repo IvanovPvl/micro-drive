@@ -1,5 +1,4 @@
 rootProject.name = 'micro-drive'
-include 'app'
 include 'pricing'
 include 'drivers'
 include 'eureka'
@@ -8,4 +7,4 @@ include 'gateway'
 include 'routing'
 include 'trips'
 include 'core'
-
+include 'testing'
