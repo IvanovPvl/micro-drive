@@ -1,6 +1,7 @@
 package io.microdrive.accounts.service;
 
 import io.microdrive.accounts.domain.Account;
+import io.microdrive.accounts.errors.UsernameAlreadyExistsError;
 import io.microdrive.accounts.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.github.ivpal.Result;
 
 import java.util.Optional;
 
@@ -23,10 +25,16 @@ public class AccountService implements UserDetailsService {
         return accountRepository.findByIdAndRole(id, "driver");
     }
 
-    public void create(Account account) {
+    public Result<Account, UsernameAlreadyExistsError> create(Account account) {
+        val username = account.getUsername();
+        if (accountRepository.findByUsername(username).isPresent()) {
+            return Result.failure(new UsernameAlreadyExistsError(username));
+        }
+
         val password = passwordEncoder.encode(account.getPassword());
         account.setPassword(password);
-        accountRepository.save(account);
+        val createdAccount = accountRepository.save(account);
+        return Result.success(createdAccount);
     }
 
     @Override

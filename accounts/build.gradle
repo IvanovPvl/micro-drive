@@ -11,6 +11,7 @@ sourceCompatibility = '12'
 
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencyManagement {
@@ -24,6 +25,7 @@ ext {
 	set('springSecurityOauth2Version', '2.3.6.RELEASE')
     set('springSecurityJwtVersion', '1.0.10.RELEASE')
     set('jaxbRuntimeVersion', '2.3.2')
+	set('resultVersion', '0.7')
 }
 
 dependencies {
@@ -39,6 +41,7 @@ dependencies {
 
     runtimeOnly "org.glassfish.jaxb:jaxb-runtime:${jaxbRuntimeVersion}"
 
+	implementation "com.github.ivpal:result:${resultVersion}"
 	compileOnly "org.projectlombok:lombok:${lombokVersion}"
 	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

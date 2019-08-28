@@ -3,9 +3,12 @@ package io.microdrive.accounts.web;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import io.microdrive.accounts.domain.Account;
+import io.microdrive.accounts.errors.ResponseError;
 import io.microdrive.accounts.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Map;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.status;
 
 @Component
 @RequiredArgsConstructor
@@ -34,9 +41,13 @@ public class AccountsController {
     }
 
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Account account) {
-        accountService.create(account);
+    public ResponseEntity create(@RequestBody Account account) {
+        val result = accountService.create(account);
+        if (result.isSuccess()) {
+            return status(CREATED).build();
+        }
+        val error = result.error();
+        return badRequest().body(ResponseError.builder().message(error.getMessage()).build());
     }
 
     @GetMapping("/.well-known/jwks.json")
