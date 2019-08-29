@@ -7,7 +7,6 @@ import io.microdrive.accounts.errors.ResponseError;
 import io.microdrive.accounts.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
@@ -17,9 +16,8 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Map;
 
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.ResponseEntity.badRequest;
-import static org.springframework.http.ResponseEntity.status;
+import static org.springframework.http.ResponseEntity.ok;
 
 @Component
 @RequiredArgsConstructor
@@ -44,7 +42,7 @@ public class AccountsController {
     public ResponseEntity create(@RequestBody Account account) {
         val result = accountService.create(account);
         if (result.isSuccess()) {
-            return status(CREATED).build();
+            return ok(result.get());
         }
         val error = result.error();
         return badRequest().body(ResponseError.builder().message(error.getMessage()).build());

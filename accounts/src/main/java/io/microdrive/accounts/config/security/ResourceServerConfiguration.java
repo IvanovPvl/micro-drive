@@ -10,7 +10,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private static final String[] WHITE_LIST = new String[]{
             "/create",
             "/drivers",
-            ".well-known/jwks.json"
+            "/.well-known/jwks.json"
     };
 
     @Override
