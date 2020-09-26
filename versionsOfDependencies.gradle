@@ -1,0 +1,4 @@
+ext {
+    jaxbApiVersion = '2.3.1'
+    lombokVersion = '1.18.12'
+}
