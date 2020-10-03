@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/clients")
+@RequiredArgsConstructor
 public class ClientsController {
-
     private final AccountService accountService;
 
     @PostMapping()
@@ -23,12 +22,4 @@ public class ClientsController {
     public Mono<Void> create(@RequestBody CreateClientRequest request) {
         return accountService.create(request).then();
     }
-
-//    @GetMapping("/.well-known/jwks.json")
-//    public Map<String, Object> getKey() {
-//        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-//        RSAKey key = new RSAKey.Builder(publicKey).build();
-//        return new JWKSet(key).toJSONObject();
-//    }
-
 }

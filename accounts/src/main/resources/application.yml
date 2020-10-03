@@ -14,3 +14,6 @@ spring:
       port: ${MD_DATABASE_PORT:27017}
       username: ${MD_DATABASE_USERNAME:microDrive}
       password: ${MD_DATABASE_PASSWORD:password}
+security:
+  secret: ${SECRET}
+  alias: ${ALIAS}
