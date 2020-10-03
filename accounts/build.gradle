@@ -6,31 +6,14 @@ plugins {
 group = 'io.microdrive'
 version = '0.0.1-SNAPSHOT'
 
-repositories {
-	maven { url 'https://jitpack.io' }
-}
-
-ext {
-	set('springSecurityOauth2Version', '2.3.6.RELEASE')
-    set('springSecurityJwtVersion', '1.0.10.RELEASE')
-	set('resultVersion', '0.7')
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-
-	implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth2Version}"
-    implementation "org.springframework.security:spring-security-jwt:${springSecurityJwtVersion}"
-
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
-
-	implementation "com.github.ivpal:result:${resultVersion}"
+	implementation "javax.servlet:javax.servlet-api:4.0.1"
 
 	compileOnly "org.projectlombok:lombok:${lombokVersion}"
 	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
