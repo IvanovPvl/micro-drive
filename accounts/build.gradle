@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.3.4.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
 group = 'io.microdrive'
@@ -10,37 +10,37 @@ sourceCompatibility = JavaVersion.VERSION_14
 targetCompatibility = JavaVersion.VERSION_14
 
 compileJava {
-	options.compilerArgs += ["--enable-preview"]
+    options.compilerArgs += ["--enable-preview"]
 }
 compileTestJava {
-	options.compilerArgs += ["--enable-preview"]
+    options.compilerArgs += ["--enable-preview"]
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-	implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
-	implementation "javax.servlet:javax.servlet-api:4.0.1"
+    implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
+    implementation "javax.servlet:javax.servlet-api:4.0.1"
 
-	implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
-	runtime "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
-	runtime "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
-	implementation "com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
+    runtime "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
+    runtime "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+    implementation "com.nimbusds:nimbus-jose-jwt:${nimbusJoseJwtVersion}"
 
-	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
