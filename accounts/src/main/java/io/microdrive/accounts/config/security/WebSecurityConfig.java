@@ -1,5 +1,7 @@
 package io.microdrive.accounts.config.security;
 
+import io.microdrive.accounts.config.SecurityConfigProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -17,8 +19,11 @@ import java.security.spec.RSAPublicKeySpec;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableReactiveMethodSecurity
 public class WebSecurityConfig {
+    private final SecurityConfigProperties properties;
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
@@ -35,8 +40,12 @@ public class WebSecurityConfig {
     public KeyPair keyPair() {
         try (var inputStream = new ClassPathResource("secret.jks").getInputStream()) {
             var keyStore = KeyStore.getInstance("jks");
-            keyStore.load(inputStream, "secret".toCharArray());
-            RSAPrivateCrtKey key = (RSAPrivateCrtKey) keyStore.getKey("secret", "secret".toCharArray());
+            var secret = properties.getSecret().toCharArray();
+            keyStore.load(inputStream, secret);
+            RSAPrivateCrtKey key = (RSAPrivateCrtKey) keyStore.getKey(
+                properties.getAlias(),
+                secret
+            );
             RSAPublicKeySpec spec = new RSAPublicKeySpec(key.getModulus(), key.getPublicExponent());
             PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(spec);
             return new KeyPair(publicKey, key);
