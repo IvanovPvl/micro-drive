@@ -26,6 +26,7 @@ public class DriversHandler {
     }
 
     public Mono<ServerResponse> findById(ServerRequest request) {
+        // TODO: handle not found
         var id = request.pathVariable("id");
         return accountService.findDriverById(id)
             .flatMap(response -> ok().bodyValue(response));

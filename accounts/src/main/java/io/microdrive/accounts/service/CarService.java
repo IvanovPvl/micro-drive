@@ -12,11 +12,16 @@ import reactor.core.publisher.Mono;
 public class CarService {
     private final CarRepository carRepository;
 
-    Mono<Car> create(CreateCarRequest request) {
-        return carRepository.save(request.toCar());
+    public Mono<Car> create(CreateCarRequest request, String accountId) {
+        var car = new Car();
+        car.setAccountId(accountId);
+        car.setColor(request.getColor());
+        car.setMark(request.getMark());
+        car.setNumber(request.getNumber());
+        return carRepository.save(car);
     }
 
-    Mono<Car> findByAccountId(String accountId) {
+    public Mono<Car> findByAccountId(String accountId) {
         return carRepository.findByAccountId(accountId);
     }
 }

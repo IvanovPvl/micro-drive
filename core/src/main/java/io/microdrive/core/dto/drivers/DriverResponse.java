@@ -11,7 +11,7 @@ public class DriverResponse {
     private String id;
     private String firstName;
     private String lastName;
-    private String phoneNUmber;
+    private String phoneNumber;
     private Car car;
 
     @Data

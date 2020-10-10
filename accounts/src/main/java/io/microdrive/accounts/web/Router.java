@@ -15,13 +15,20 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class Router {
     private final AuthController authController;
     private final DriversHandler driversHandler;
+    private final CarsHandler carsHandler;
 
     @Bean
     public RouterFunction<ServerResponse> routes() {
+        var drivers = route().nest(
+            accept(MediaType.APPLICATION_JSON),
+            builder -> builder.POST("/", driversHandler::create)
+                .GET("/{id}", driversHandler::findById)
+                .POST("/{id}/cars", carsHandler::create)
+        ).build();
+
         return route()
+            .path("/drivers", () -> drivers)
             .POST("/auth/token", accept(MediaType.APPLICATION_JSON), authController::createToken)
-            .POST("/drivers", accept(MediaType.APPLICATION_JSON), driversHandler::create)
-            .POST("/drivers/{id}", accept(MediaType.APPLICATION_JSON), driversHandler::findById)
             .build();
     }
 }

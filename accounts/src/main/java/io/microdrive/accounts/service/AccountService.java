@@ -1,7 +1,7 @@
 package io.microdrive.accounts.service;
 
+import io.microdrive.accounts.persistence.Account;
 import io.microdrive.accounts.repository.AccountRepository;
-import io.microdrive.accounts.web.dto.AccountResponse;
 import io.microdrive.accounts.web.dto.CreateAccountRequest;
 import io.microdrive.core.dto.drivers.DriverResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +16,16 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
     private final CarService carService;
 
-    public Mono<AccountResponse> createClient(CreateAccountRequest request) {
+    public Mono<Account> createClient(CreateAccountRequest request) {
          var account = request.toClientAccount();
          account.setPassword(passwordEncoder.encode(request.getPassword()));
-         return accountRepository.save(account)
-             .map(AccountResponse::fromAccount);
+         return accountRepository.save(account);
     }
 
-    public Mono<AccountResponse> createDriver(CreateAccountRequest request) {
+    public Mono<Account> createDriver(CreateAccountRequest request) {
         var account = request.toDriverAccount();
         account.setPassword(passwordEncoder.encode(request.getPassword()));
-        return accountRepository.save(account)
-            .map(AccountResponse::fromAccount);
+        return accountRepository.save(account);
     }
 
     public Mono<DriverResponse> findDriverById(String id) {
@@ -36,7 +34,7 @@ public class AccountService {
             response.setId(account.getId());
             response.setFirstName(account.getFirstName());
             response.setLastName(account.getLastName());
-            response.setPhoneNUmber(account.getPhoneNumber());
+            response.setPhoneNumber(account.getPhoneNumber());
             var c = new DriverResponse.Car();
             c.setId(car.getId());
             c.setColor(car.getColor());

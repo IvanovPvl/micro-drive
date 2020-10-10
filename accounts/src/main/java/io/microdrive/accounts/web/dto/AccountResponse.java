@@ -11,17 +11,4 @@ public class AccountResponse {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private boolean isDriver;
-    private boolean isClient;
-
-    public static AccountResponse fromAccount(Account account) {
-        var response = new AccountResponse();
-        response.setId(account.getId());
-        response.setFirstName(account.getFirstName());
-        response.setLastName(account.getLastName());
-        response.setPhoneNumber(account.getPhoneNumber());
-        response.setDriver(account.isDriver());
-        response.setClient(account.isClient());
-        return response;
-    }
 }
