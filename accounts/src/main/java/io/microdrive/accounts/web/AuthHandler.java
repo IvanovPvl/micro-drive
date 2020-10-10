@@ -16,7 +16,7 @@ import static org.springframework.web.reactive.function.server.ServerResponse.st
 
 @Component
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthHandler {
     private final TokenService tokenService;
 
     Mono<ServerResponse> createToken(ServerRequest request) {
