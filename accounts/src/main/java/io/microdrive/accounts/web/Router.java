@@ -14,6 +14,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class Router {
     private final AuthController authController;
+    private final ClientsHandler clientsHandler;
     private final DriversHandler driversHandler;
     private final CarsHandler carsHandler;
 
@@ -28,6 +29,7 @@ public class Router {
 
         return route()
             .path("/drivers", () -> drivers)
+            .POST("/clients", accept(MediaType.APPLICATION_JSON), clientsHandler::create)
             .POST("/auth/token", accept(MediaType.APPLICATION_JSON), authController::createToken)
             .build();
     }
