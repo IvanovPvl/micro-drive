@@ -6,18 +6,27 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CreateClientRequest {
+public class CreateAccountRequest {
     private String firstName;
     private String lastName;
     private String password;
     private String phoneNumber;
 
-    public Account toAccount() {
+    public Account toClientAccount() {
         var account = new Account();
         account.setFirstName(firstName);
         account.setLastName(lastName);
         account.setPhoneNumber(phoneNumber);
         account.setClient(true);
+        return account;
+    }
+
+    public Account toDriverAccount() {
+        var account = new Account();
+        account.setFirstName(firstName);
+        account.setLastName(lastName);
+        account.setPhoneNumber(phoneNumber);
+        account.setDriver(true);
         return account;
     }
 }

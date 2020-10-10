@@ -14,11 +14,14 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class Router {
     private final AuthController authController;
+    private final DriversHandler driversHandler;
 
     @Bean
     public RouterFunction<ServerResponse> routes() {
         return route()
-            .POST("/api/auth/token", accept(MediaType.APPLICATION_JSON), authController::createToken)
+            .POST("/auth/token", accept(MediaType.APPLICATION_JSON), authController::createToken)
+            .POST("/drivers", accept(MediaType.APPLICATION_JSON), driversHandler::create)
+            .POST("/drivers/{id}", accept(MediaType.APPLICATION_JSON), driversHandler::findById)
             .build();
     }
 }
