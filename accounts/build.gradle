@@ -6,9 +6,6 @@ plugins {
 group = 'io.microdrive'
 version = '0.0.1-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_14
-targetCompatibility = JavaVersion.VERSION_14
-
 compileJava {
     options.compilerArgs += ["--enable-preview"]
 }

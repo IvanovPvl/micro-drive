@@ -1,6 +1,6 @@
 package io.microdrive.routing.tomtom.model;
 
-import io.microdrive.routing.dto.Point;
+import io.microdrive.core.dto.routing.Point;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

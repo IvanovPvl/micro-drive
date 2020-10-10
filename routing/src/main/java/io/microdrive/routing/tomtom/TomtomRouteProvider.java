@@ -1,7 +1,7 @@
 package io.microdrive.routing.tomtom;
 
-import io.microdrive.routing.dto.Point;
-import io.microdrive.routing.dto.RouteInfo;
+import io.microdrive.core.dto.routing.Point;
+import io.microdrive.core.dto.routing.RouteInfo;
 import io.microdrive.routing.RouteProvider;
 import io.microdrive.routing.tomtom.model.CalculateRouteResponse;
 import io.microdrive.routing.tomtom.model.Leg;
@@ -17,7 +17,6 @@ import java.util.Locale;
 @Component
 @RequiredArgsConstructor
 public class TomtomRouteProvider implements RouteProvider {
-
     private final WebClient tomtomWebClient;
     private final TomTomConfigurationProperties config;
 
