@@ -1,5 +1,5 @@
 rootProject.name = 'micro-drive'
-//include 'pricing'
+include 'pricing'
 //include 'drivers'
 include 'accounts'
 //include 'gateway'

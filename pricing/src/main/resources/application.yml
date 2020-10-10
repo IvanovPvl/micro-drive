@@ -6,4 +6,4 @@ spring:
     active: ${PROFILE:dev}
 
 pricing:
-  priceForKm: 0.15
+  price-for-km: 0.15

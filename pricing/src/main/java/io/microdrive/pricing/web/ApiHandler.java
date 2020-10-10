@@ -1,4 +1,4 @@
-package io.microdrive.pricing;
+package io.microdrive.pricing.web;
 
 import io.microdrive.core.dto.pricing.PricingInfo;
 import io.microdrive.core.dto.pricing.PricingRequest;
@@ -16,7 +16,6 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 @RequiredArgsConstructor
 class ApiHandler {
-
     private final PriceService priceService;
 
     @NonNull
@@ -27,5 +26,4 @@ class ApiHandler {
 
         return ok().body(info, PricingInfo.class);
     }
-
 }
