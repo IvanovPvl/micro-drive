@@ -1,6 +1,6 @@
-package io.microdrive.drivers;
+package io.microdrive.drivers.web;
 
-import io.microdrive.core.dto.drivers.Account;
+import io.microdrive.core.dto.drivers.DriverResponse;
 import io.microdrive.core.dto.drivers.ReleaseRequest;
 import io.microdrive.drivers.service.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +15,18 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 @RequiredArgsConstructor
 class ApiHandler {
-
     private final DriverService driverService;
 
     Mono<ServerResponse> request(ServerRequest request) {
         val account = driverService.request();
-        return ok().body(account, Account.class);
+        return ok().body(account, DriverResponse.class);
     }
 
     Mono<ServerResponse> release(ServerRequest request) {
         val result = request.bodyToMono(ReleaseRequest.class)
-                .map(ReleaseRequest::getDriverId)
-                .flatMap(driverService::release);
+            .map(ReleaseRequest::getDriverId)
+            .flatMap(driverService::release);
 
         return ok().build(result.then());
     }
-
 }

@@ -1,4 +1,4 @@
-package io.microdrive.accounts.errors;
+package io.microdrive.core.dto.errors;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

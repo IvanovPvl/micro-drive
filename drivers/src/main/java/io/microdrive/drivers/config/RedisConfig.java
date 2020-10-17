@@ -10,18 +10,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
-
     @Bean
     ReactiveSetOperations<String, String> reactiveSetOperations(ReactiveRedisConnectionFactory cf) {
         RedisSerializationContext<String, String> context = RedisSerializationContext
-                .<String, String>newSerializationContext(new StringRedisSerializer())
-                .key(new StringRedisSerializer())
-                .value(new StringRedisSerializer())
-                .hashKey(new StringRedisSerializer())
-                .hashKey(new StringRedisSerializer())
-                .build();
+            .<String, String>newSerializationContext(new StringRedisSerializer())
+            .key(new StringRedisSerializer())
+            .value(new StringRedisSerializer())
+            .hashKey(new StringRedisSerializer())
+            .hashKey(new StringRedisSerializer())
+            .build();
 
         return new ReactiveRedisTemplate<>(cf, context).opsForSet();
     }
-
 }

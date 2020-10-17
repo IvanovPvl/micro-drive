@@ -27,6 +27,10 @@ public class TokenService {
     public Mono<Token> create(AuthRequest request) {
         return accountRepository.findByPhoneNumber(request.getPhoneNumber())
             .flatMap(account -> {
+                if (request.getIsClient().equals(request.getIsDriver())) {
+                    return Mono.error(new RuntimeException("One of isClient or isDriver should be true."));
+                }
+
                 if (!passwordEncoder.matches(request.getPassword(), account.getPassword())) {
                     return Mono.error(new AccountNotFound(request.getPhoneNumber()));
                 }
@@ -35,8 +39,8 @@ public class TokenService {
                 var expiredAt = issuedAt.plus(1, ChronoUnit.DAYS);
                 var token = builder.setSubject(account.getId())
                     .setHeaderParam("typ", "JWT")
-                    .claim("isClient", true)
-                    .claim("isDriver", false)
+                    .claim("isClient", request.getIsClient())
+                    .claim("isDriver", request.getIsDriver())
                     .setIssuedAt(Date.from(issuedAt))
                     .setExpiration(Date.from(expiredAt))
                     .signWith(keyPair.getPrivate())

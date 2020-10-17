@@ -1,7 +1,7 @@
 package io.microdrive.accounts.web;
 
 import io.microdrive.accounts.errors.AccountNotFound;
-import io.microdrive.accounts.errors.ResponseError;
+import io.microdrive.core.dto.errors.ResponseError;
 import io.microdrive.accounts.service.TokenService;
 import io.microdrive.accounts.web.dto.AuthRequest;
 import lombok.RequiredArgsConstructor;

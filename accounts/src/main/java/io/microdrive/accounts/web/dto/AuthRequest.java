@@ -6,4 +6,6 @@ import lombok.Data;
 public class AuthRequest {
     private String phoneNumber;
     private String password;
+    private String isClient;
+    private String isDriver;
 }

@@ -1,7 +1,8 @@
 package io.microdrive.drivers.service;
 
-import io.microdrive.core.dto.drivers.Account;
-import io.microdrive.drivers.clients.AccountClient;
+import io.microdrive.core.dto.drivers.DriverResponse;
+import io.microdrive.drivers.clients.AccountsClient;
+import io.microdrive.drivers.errors.FreeDriverNotFoundError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ReactiveSetOperations;
 import org.springframework.stereotype.Service;
@@ -10,11 +11,10 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class DriverService {
-
     private static final String FREE_DRIVERS = "free_drivers";
 
     private final ReactiveSetOperations<String, String> setOperations;
-    private final AccountClient accountClient;
+    private final AccountsClient accountClient;
 
     /**
      * Add driver to free set.
@@ -31,10 +31,9 @@ public class DriverService {
      *
      * @return Mono
      */
-    public Mono<Account> request() {
+    public Mono<DriverResponse> request() {
         return setOperations.pop(FREE_DRIVERS)
-                .flatMap(accountClient::getAccount)
-                .switchIfEmpty(Mono.empty());
+            .flatMap(accountClient::getDriver)
+            .switchIfEmpty(Mono.error(new FreeDriverNotFoundError()));
     }
-
 }
