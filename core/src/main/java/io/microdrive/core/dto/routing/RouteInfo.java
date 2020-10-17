@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @Builder
 public class RouteInfo {
+    private String id;
     private List<Point> points;
     private int lengthInMeters;
     private int travelTimeInSeconds;
