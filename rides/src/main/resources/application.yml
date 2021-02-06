@@ -1,0 +1,23 @@
+server:
+  port: ${SERVER_PORT:8086}
+
+spring:
+  application:
+    name: rides
+  profiles:
+    active: ${PROFILE:dev}
+  data:
+    mongodb:
+      database: ${MD_DATABASE_NAME:microDrive}
+      host: ${MD_DATABASE_HOST:localhost}
+      port: ${MD_DATABASE_PORT:27017}
+      username: ${MD_DATABASE_USERNAME:microDrive}
+      password: ${MD_DATABASE_PASSWORD:password}
+
+clients:
+  drivers:
+    base-url: ${DRIVERS_BASE_URL}
+  pricing:
+    base-url: ${PRICING_BASE_URL}
+  routing:
+    base-url: ${ROUNTING_BASE_URL}
