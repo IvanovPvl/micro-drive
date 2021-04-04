@@ -15,10 +15,7 @@ public class Account {
     private String firstName;
     private String lastName;
     private String password;
-
-    @Indexed(unique = true)
-    private String phoneNumber;
-
+    @Indexed(unique = true) private String phoneNumber;
     private Role role;
 
     public enum Role {

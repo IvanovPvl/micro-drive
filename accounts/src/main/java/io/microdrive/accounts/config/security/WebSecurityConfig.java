@@ -13,6 +13,9 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @RequiredArgsConstructor
 @EnableReactiveMethodSecurity
 public class WebSecurityConfig {
+    private final AuthenticationManager authenticationManager;
+    private final SecurityContextRepository securityContextRepository;
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
@@ -21,7 +24,13 @@ public class WebSecurityConfig {
             .logout().disable()
             .cors().disable()
             .csrf().disable()
+            .authenticationManager(authenticationManager)
+            .securityContextRepository(securityContextRepository)
             .authorizeExchange()
+            .pathMatchers(
+                "/api/v1/accounts",
+                "/api/v1/accounts/check-password"
+            ).permitAll()
             .anyExchange().permitAll().and().build();
     }
 }
