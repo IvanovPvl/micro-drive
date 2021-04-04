@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Token {
-    private String accessToken;
-    private Long issuedAt;
-    private Long expiredAt;
+public class CheckPasswordResponse {
+    private boolean result;
 }

@@ -12,6 +12,7 @@ public class Car {
     private String mark;
     private String number;
     private String color;
+    private String accountId;
 
     public Car(CreateAccountRequest.CreateCarRequest request) {
         this.mark = request.getMark();

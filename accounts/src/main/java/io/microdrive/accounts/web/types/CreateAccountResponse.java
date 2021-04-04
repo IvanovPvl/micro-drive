@@ -40,8 +40,14 @@ public class CreateAccountResponse {
         this.lastName = account.getLastName();
         this.phoneNumber = account.getPhoneNumber();
         this.role = account.getRole();
-        if (role == Account.Role.DRIVER) {
-            this.car = new CreateCarResponse(account.getCar());
-        }
+    }
+
+    public CreateAccountResponse(Account account, Car car) {
+        this.id = account.getId();
+        this.firstName = account.getFirstName();
+        this.lastName = account.getLastName();
+        this.phoneNumber = account.getPhoneNumber();
+        this.role = account.getRole();
+        this.car = new CreateCarResponse(car);
     }
 }

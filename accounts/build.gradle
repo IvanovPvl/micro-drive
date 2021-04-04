@@ -4,8 +4,6 @@ plugins {
     id 'java'
 }
 
-//sourceCompatibility = '11'
-
 group = 'io.microdrive'
 version = '0.0.1-SNAPSHOT'
 

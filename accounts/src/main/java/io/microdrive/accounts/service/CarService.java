@@ -12,7 +12,9 @@ import reactor.core.publisher.Mono;
 public class CarService {
     private final CarRepository carRepository;
 
-    public Mono<Car> create(CreateAccountRequest.CreateCarRequest request) {
-        return carRepository.save(new Car(request));
+    public Mono<Car> create(CreateAccountRequest.CreateCarRequest request, String accountId) {
+        var car = new Car(request);
+        car.setAccountId(accountId);
+        return carRepository.save(car);
     }
 }
