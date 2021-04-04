@@ -17,10 +17,10 @@ import static org.springframework.web.reactive.function.server.ServerResponse.st
 public class DriversHandler {
     private final DriverService driverService;
 
-    public Mono<ServerResponse> create(ServerRequest request) {
-        var mono = request.bodyToMono(CreateDriverRequest.class)
-            .flatMap(driverService::create);
-
-        return status(HttpStatus.CREATED).body(mono, CreateDriverResponse.class);
-    }
+//    public Mono<ServerResponse> create(ServerRequest request) {
+//        var mono = request.bodyToMono(CreateDriverRequest.class)
+//            .flatMap(driverService::create);
+//
+//        return status(HttpStatus.CREATED).body(mono, CreateDriverResponse.class);
+//    }
 }

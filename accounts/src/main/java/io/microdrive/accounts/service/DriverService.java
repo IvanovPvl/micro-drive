@@ -19,16 +19,16 @@ public class DriverService {
     private final CarRepository carRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
-    public Mono<CreateDriverResponse> create(CreateDriverRequest request) {
-        var car = new Car(request.getCar());
-        return carRepository.save(car)
-            .flatMap(savedCar -> {
-                var driver = new Driver(request);
-                driver.setCar(savedCar);
-                driver.setPassword(passwordEncoder.encode(request.getPassword()));
-                return driverRepository.save(driver);
-            })
-            .map(CreateDriverResponse::new);
-    }
+//    @Transactional
+//    public Mono<CreateDriverResponse> create(CreateDriverRequest request) {
+//        var car = new Car(request.getCar());
+//        return carRepository.save(car)
+//            .flatMap(savedCar -> {
+//                var driver = new Driver(request);
+//                driver.setCar(savedCar);
+//                driver.setPassword(passwordEncoder.encode(request.getPassword()));
+//                return driverRepository.save(driver);
+//            })
+//            .map(CreateDriverResponse::new);
+//    }
 }

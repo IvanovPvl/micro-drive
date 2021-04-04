@@ -1,6 +1,6 @@
 package io.microdrive.accounts.persistence;
 
-import io.microdrive.accounts.web.types.driver.CreateDriverRequest;
+import io.microdrive.accounts.web.types.CreateAccountRequest;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,9 +13,9 @@ public class Car {
     private String number;
     private String color;
 
-    public Car(CreateDriverRequest.Car car) {
-        this.mark = car.getMark();
-        this.number = car.getNumber();
-        this.color = car.getColor();
+    public Car(CreateAccountRequest.CreateCarRequest request) {
+        this.mark = request.getMark();
+        this.number = request.getNumber();
+        this.color = request.getColor();
     }
 }

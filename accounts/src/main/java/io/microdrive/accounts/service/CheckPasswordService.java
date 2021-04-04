@@ -14,7 +14,7 @@ public class CheckPasswordService {
     private final ClientService clientService;
     private final PasswordEncoder passwordEncoder;
 
-    public Mono<Result<Throwable, >> checkForClient(CheckPasswordRequest request) {
+    public Mono<Boolean> checkForClient(CheckPasswordRequest request) {
         return clientService.findByPhoneNumber(request.getPhoneNumber())
             .flatMap(client -> {
                 if (!passwordEncoder.matches(request.getPassword(), client.getPassword())) {

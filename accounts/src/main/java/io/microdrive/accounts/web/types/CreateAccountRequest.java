@@ -11,22 +11,14 @@ public class CreateAccountRequest {
     private String lastName;
     private String password;
     private String phoneNumber;
+    private Account.Role role;
+    private CreateCarRequest car;
 
-    public Account toClientAccount() {
-        var account = new Account();
-        account.setFirstName(firstName);
-        account.setLastName(lastName);
-        account.setPhoneNumber(phoneNumber);
-        account.setClient(true);
-        return account;
-    }
-
-    public Account toDriverAccount() {
-        var account = new Account();
-        account.setFirstName(firstName);
-        account.setLastName(lastName);
-        account.setPhoneNumber(phoneNumber);
-        account.setDriver(true);
-        return account;
+    @Data
+    @NoArgsConstructor
+    public static class CreateCarRequest {
+        private String mark;
+        private String number;
+        private String color;
     }
 }

@@ -13,8 +13,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 @RequiredArgsConstructor
 public class Router {
-    private final ClientsHandler clientsHandler;
-    private final DriversHandler driversHandler;
+    private final AccountsHandler accountsHandler;
     private final CheckPasswordHandler checkPasswordHandler;
 
     @Bean
@@ -26,15 +25,16 @@ public class Router {
 //                .POST("/{id}/cars", carsHandler::create)
 //        ).build();
 
-        var clients = route().nest(
+        var accounts = route().nest(
             accept(MediaType.APPLICATION_JSON),
-            builder -> builder.POST("/", clientsHandler::create)
+            builder -> builder.POST("/", accountsHandler::create)
                 .POST("/check-password", checkPasswordHandler::checkForClient)
         ).build();
 
         return route()
-            .path("/clients", () -> clients)
-            .POST("/drivers", accept(MediaType.APPLICATION_JSON), driversHandler::create)
+            .path("/v1", () -> accounts)
+//            .path("/clients", () -> clients)
+//            .POST("/drivers", accept(MediaType.APPLICATION_JSON), driversHandler::create)
 //            .POST("/auth/token", accept(MediaType.APPLICATION_JSON), authHandler::createToken)
 //            .GET("/.well-known/jwks.json", publicKeyHandler::getKey)
             .build();
