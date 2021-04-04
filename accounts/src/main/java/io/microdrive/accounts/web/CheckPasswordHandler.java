@@ -3,7 +3,7 @@ package io.microdrive.accounts.web;
 import io.microdrive.accounts.errors.ClientNotFoundException;
 import io.microdrive.accounts.service.CheckPasswordService;
 import io.microdrive.accounts.web.types.CheckPasswordRequest;
-import io.microdrive.core.dto.errors.ResponseError;
+import io.microdrive.core.dto.errors.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,9 +24,9 @@ public class CheckPasswordHandler {
             .flatMap(result -> status(HttpStatus.OK).build())
             .onErrorResume(error -> {
                 if (error instanceof ClientNotFoundException ex) {
-                    return status(HttpStatus.NOT_FOUND).bodyValue(new ResponseError(ex.getMessage()));
+                    return status(HttpStatus.NOT_FOUND).bodyValue(new ErrorResponse(ex.getMessage()));
                 }
-                return status(HttpStatus.BAD_REQUEST).bodyValue(new ResponseError(error.getMessage()));
+                return status(HttpStatus.BAD_REQUEST).bodyValue(new ErrorResponse(error.getMessage()));
             });
     }
 }

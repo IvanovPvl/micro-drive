@@ -1,8 +1,8 @@
 package io.microdrive.accounts;
 
-import io.microdrive.accounts.errors.ClientAlreadyExistsException;
-import io.microdrive.accounts.errors.ClientNotFoundException;
-import io.microdrive.core.dto.errors.ResponseError;
+import io.microdrive.accounts.errors.AccountAlreadyExistsException;
+import io.microdrive.accounts.errors.AccountNotFoundException;
+import io.microdrive.core.dto.errors.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -10,15 +10,15 @@ import reactor.core.publisher.Mono;
 import static org.springframework.web.reactive.function.server.ServerResponse.status;
 
 public class ServerResponseUtils {
-    public static <E extends Throwable, T> Mono<ServerResponse> fromResult(Result<E, T> result) {
+    public static <T> Mono<ServerResponse> fromResult(Result<T> result) {
         if (result.isFailed()) {
-            if (result.left() instanceof ClientNotFoundException ex) {
-                return status(HttpStatus.NOT_FOUND).bodyValue(new ResponseError(ex.getMessage()));
-            } else if (result.left() instanceof ClientAlreadyExistsException ex) {
-                return status(HttpStatus.BAD_REQUEST).bodyValue(new ResponseError(ex.getMessage()));
+            if (result.left() instanceof AccountNotFoundException ex) {
+                return status(HttpStatus.NOT_FOUND).bodyValue(new ErrorResponse(ex.getMessage()));
+            } else if (result.left() instanceof AccountAlreadyExistsException ex) {
+                return status(HttpStatus.BAD_REQUEST).bodyValue(new ErrorResponse(ex.getMessage()));
             }
 
-            return status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue(new ResponseError(result.left().getMessage()));
+            return status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue(new ErrorResponse(result.left().getMessage()));
         }
 
         return status(HttpStatus.OK).bodyValue(result.right());

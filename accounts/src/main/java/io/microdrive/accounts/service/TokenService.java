@@ -2,7 +2,7 @@ package io.microdrive.accounts.service;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.microdrive.accounts.errors.AccountNotFound;
+import io.microdrive.accounts.errors.AccountNotFoundException;
 import io.microdrive.accounts.repository.AccountRepository;
 import io.microdrive.accounts.web.types.AuthRequest;
 import io.microdrive.accounts.web.types.Token;
@@ -46,6 +46,6 @@ public class TokenService {
                     .compact();
 
                 return Mono.just(new Token(token, issuedAt.getEpochSecond(), expiredAt.getEpochSecond()));
-            }).switchIfEmpty(Mono.error(new AccountNotFound(request.getPhoneNumber())));
+            }).switchIfEmpty(Mono.error(new AccountNotFoundException(request.getPhoneNumber())));
     }
 }

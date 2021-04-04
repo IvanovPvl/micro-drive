@@ -1,19 +1,19 @@
 package io.microdrive.accounts;
 
-public class Result<E extends Throwable, T> {
-    private final E left;
+public class Result<T> {
+    private final Throwable left;
     private final T right;
 
-    private Result(E error, T result) {
+    private Result(Throwable error, T result) {
         this.left = error;
         this.right = result;
     }
 
-    public static <E extends Throwable, T> Result<E, T> fail(E throwable) {
+    public static <T> Result<T> fail(Throwable throwable) {
         return new Result<>(throwable, null);
     }
 
-    public static <E extends Throwable, T> Result<E, T> success(T result) {
+    public static <T> Result<T> success(T result) {
         return new Result<>(null, result);
     }
 

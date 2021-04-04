@@ -18,7 +18,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Mono<Result<Throwable, CreateClientResponse>> create(CreateClientRequest request) {
+    public Mono<Result<CreateClientResponse>> create(CreateClientRequest request) {
         var client = new Client(request);
         client.setPassword(passwordEncoder.encode(request.getPassword()));
         return clientRepository.save(client)
