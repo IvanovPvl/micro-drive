@@ -1,14 +1,13 @@
-package io.microdrive.accounts.web.dto;
+package io.microdrive.accounts.web.types.client;
 
-import io.microdrive.accounts.persistence.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AccountResponse {
-    private String id;
+public class CreateClientRequest {
     private String firstName;
     private String lastName;
+    private String password;
     private String phoneNumber;
 }

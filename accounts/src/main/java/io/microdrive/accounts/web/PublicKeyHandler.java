@@ -16,12 +16,12 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 @RequiredArgsConstructor
 public class PublicKeyHandler {
-    private final KeyPair keyPair;
+//    private final KeyPair keyPair;
 
-    public Mono<ServerResponse> getKey(ServerRequest request) {
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAKey key = new RSAKey.Builder(publicKey).build();
-        return Mono.just(new JWKSet(key).toJSONObject())
-            .flatMap(response -> ok().bodyValue(response));
-    }
+//    public Mono<ServerResponse> getKey(ServerRequest request) {
+//        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+//        RSAKey key = new RSAKey.Builder(publicKey).build();
+//        return Mono.just(new JWKSet(key).toJSONObject())
+//            .flatMap(response -> ok().bodyValue(response));
+//    }
 }

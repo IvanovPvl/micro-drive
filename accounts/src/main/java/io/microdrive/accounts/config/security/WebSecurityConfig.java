@@ -22,7 +22,7 @@ import java.security.spec.RSAPublicKeySpec;
 @RequiredArgsConstructor
 @EnableReactiveMethodSecurity
 public class WebSecurityConfig {
-    private final SecurityConfigProperties properties;
+//    private final SecurityConfigProperties properties;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -36,21 +36,21 @@ public class WebSecurityConfig {
             .anyExchange().permitAll().and().build();
     }
 
-    @Bean
-    public KeyPair keyPair() {
-        try (var inputStream = new ClassPathResource("secret.jks").getInputStream()) {
-            var keyStore = KeyStore.getInstance("jks");
-            var secret = properties.getSecret().toCharArray();
-            keyStore.load(inputStream, secret);
-            RSAPrivateCrtKey key = (RSAPrivateCrtKey) keyStore.getKey(
-                properties.getAlias(),
-                secret
-            );
-            RSAPublicKeySpec spec = new RSAPublicKeySpec(key.getModulus(), key.getPublicExponent());
-            PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(spec);
-            return new KeyPair(publicKey, key);
-        } catch (Exception e) {
-            throw new IllegalStateException("Cannot load keys from store: ", e);
-        }
-    }
+//    @Bean
+//    public KeyPair keyPair() {
+//        try (var inputStream = new ClassPathResource("secret.jks").getInputStream()) {
+//            var keyStore = KeyStore.getInstance("jks");
+//            var secret = properties.getSecret().toCharArray();
+//            keyStore.load(inputStream, secret);
+//            RSAPrivateCrtKey key = (RSAPrivateCrtKey) keyStore.getKey(
+//                properties.getAlias(),
+//                secret
+//            );
+//            RSAPublicKeySpec spec = new RSAPublicKeySpec(key.getModulus(), key.getPublicExponent());
+//            PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(spec);
+//            return new KeyPair(publicKey, key);
+//        } catch (Exception e) {
+//            throw new IllegalStateException("Cannot load keys from store: ", e);
+//        }
+//    }
 }

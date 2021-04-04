@@ -1,20 +1,13 @@
-apply from: "$rootDir/versionsOfDependencies.gradle"
-
-allprojects {
-    apply plugin: 'idea'
-
+buildscript {
     repositories {
         mavenCentral()
     }
 }
 
-def javaProjects = subprojects.findAll {
-    it.name != "testing"
-}
+apply from: "$rootDir/versionsOfDependencies.gradle"
 
-configure(javaProjects) {
-    apply plugin: 'java'
-
-    sourceCompatibility = 1.14
-    targetCompatibility = 1.14
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }

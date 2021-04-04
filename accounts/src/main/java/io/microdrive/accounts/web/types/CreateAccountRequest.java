@@ -1,4 +1,4 @@
-package io.microdrive.accounts.web.dto;
+package io.microdrive.accounts.web.types;
 
 import io.microdrive.accounts.persistence.Account;
 import lombok.Data;
