@@ -1,4 +1,4 @@
-package io.microdrive.accounts.config.security;
+package io.microdrive.accounts.config.security.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,4 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class Principal {
     private String id;
+    private String role;
 }

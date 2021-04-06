@@ -6,6 +6,7 @@ import io.microdrive.accounts.persistence.Account;
 import io.microdrive.accounts.repository.AccountRepository;
 import io.microdrive.accounts.web.types.CreateAccountRequest;
 import io.microdrive.accounts.web.types.CreateAccountResponse;
+import io.microdrive.accounts.web.types.CurrentAccountResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +37,11 @@ public class AccountService {
 
     public Mono<Account> findByPhoneNumber(String phoneNumber) {
         return accountRepository.findByPhoneNumber(phoneNumber);
+    }
+
+    public Mono<CurrentAccountResponse> current(String id) {
+        return accountRepository.findById(id)
+            .map(CurrentAccountResponse::new);
     }
 
     private Mono<Result<CreateAccountResponse>> onError(Throwable throwable, String phoneNumber) {

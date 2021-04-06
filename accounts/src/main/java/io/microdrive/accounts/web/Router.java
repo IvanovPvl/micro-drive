@@ -20,12 +20,13 @@ public class Router {
         var accounts = route().nest(
             accept(MediaType.APPLICATION_JSON),
             builder -> builder
-                .POST("/accounts", accountsHandler::create)
-                .POST("/accounts/check-password", accountsHandler::checkPassword)
+                .POST("/", accountsHandler::create)
+                .GET("/current", accountsHandler::current)
+                .POST("/check-password", accountsHandler::checkPassword)
         ).build();
 
         return route()
-            .path("/api/v1", () -> accounts)
+            .path("/", () -> accounts)
             .build();
     }
 }

@@ -1,5 +1,6 @@
 package io.microdrive.accounts.config.security;
 
+import io.microdrive.accounts.config.security.types.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,16 +14,13 @@ import java.util.Collections;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationManager implements ReactiveAuthenticationManager {
-    private final TokenParser tokenParser;
-
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
-        return Mono.just((String)authentication.getPrincipal())
-            .map(tokenParser::parse)
-            .map(claims -> new UsernamePasswordAuthenticationToken(
-                new Principal(claims.getSubject()),
+        return Mono.just((Principal)authentication.getPrincipal())
+            .map(principal -> new UsernamePasswordAuthenticationToken(
+                principal,
                 null,
-                Collections.singletonList(new SimpleGrantedAuthority(claims.get("role", String.class)))
+                Collections.singletonList(new SimpleGrantedAuthority(principal.getRole()))
             ));
     }
 }

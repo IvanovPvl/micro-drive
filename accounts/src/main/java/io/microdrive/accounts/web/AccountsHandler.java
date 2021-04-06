@@ -1,6 +1,7 @@
 package io.microdrive.accounts.web;
 
 import io.microdrive.accounts.ServerResponseUtils;
+import io.microdrive.accounts.config.security.types.Principal;
 import io.microdrive.accounts.service.AccountService;
 import io.microdrive.accounts.service.CheckPasswordService;
 import io.microdrive.accounts.web.types.CheckPasswordRequest;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+
+import static org.springframework.security.core.context.ReactiveSecurityContextHolder.getContext;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,14 @@ public class AccountsHandler {
         return request.bodyToMono(CheckPasswordRequest.class)
             .flatMap(checkPasswordService::check)
             .flatMap(ServerResponseUtils::fromResult);
+    }
+
+    public Mono<ServerResponse> current(ServerRequest request) {
+        return getContext()
+            .flatMap(context -> {
+                var principal = (Principal) context.getAuthentication().getPrincipal();
+                return accountService.current(principal.getId());
+            })
+            .flatMap(ServerResponseUtils::ok);
     }
 }

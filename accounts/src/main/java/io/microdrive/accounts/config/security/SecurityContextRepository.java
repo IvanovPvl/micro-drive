@@ -1,5 +1,6 @@
 package io.microdrive.accounts.config.security;
 
+import io.microdrive.accounts.config.security.types.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -21,14 +22,16 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
-        var header = exchange.getRequest().getHeaders().get("Authorization");
-        if (header == null) {
+        var accountHeader = exchange.getRequest().getHeaders().get("x-account-id");
+        var roleHeader = exchange.getRequest().getHeaders().get("x-role");
+        if (accountHeader == null || roleHeader == null) {
             return Mono.empty();
         }
 
-        var jwt = header.get(0);
-        return Mono.justOrEmpty(jwt)
-            .map(token -> new UsernamePasswordAuthenticationToken(token, token))
+        var userId = accountHeader.get(0);
+        var role = roleHeader.get(0);
+        return Mono.justOrEmpty(new Principal(userId, role))
+            .map(data -> new UsernamePasswordAuthenticationToken(data, data))
             .flatMap(authenticationManager::authenticate)
             .map(SecurityContextImpl::new);
     }

@@ -23,4 +23,8 @@ public class ServerResponseUtils {
 
         return status(HttpStatus.OK).bodyValue(result.right());
     }
+
+    public static <T> Mono<ServerResponse> ok(T data) {
+        return status(HttpStatus.OK).bodyValue(data);
+    }
 }

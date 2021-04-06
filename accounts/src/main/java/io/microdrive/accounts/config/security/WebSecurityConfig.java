@@ -28,9 +28,9 @@ public class WebSecurityConfig {
             .securityContextRepository(securityContextRepository)
             .authorizeExchange()
             .pathMatchers(
-                "/api/v1/accounts",
-                "/api/v1/accounts/check-password"
+                "/",
+                "/check-password"
             ).permitAll()
-            .anyExchange().permitAll().and().build();
+            .anyExchange().authenticated().and().build();
     }
 }
