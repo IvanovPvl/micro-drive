@@ -2,8 +2,8 @@ package io.microdrive.accounts.service;
 
 import io.microdrive.accounts.Result;
 import io.microdrive.accounts.errors.AccountNotFoundException;
-import io.microdrive.accounts.web.types.CheckPasswordRequest;
-import io.microdrive.accounts.web.types.CheckPasswordResponse;
+import io.microdrive.core.types.accounts.CheckPasswordRequest;
+import io.microdrive.core.types.accounts.CheckPasswordResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class CheckPasswordService {
                 if (!passwordEncoder.matches(request.getPassword(), account.getPassword())) {
                     return Mono.just(Result.fail(new AccountNotFoundException(request.getPhoneNumber())));
                 }
-                return Mono.just(Result.success(new CheckPasswordResponse(true)));
+                return Mono.just(Result.success(new CheckPasswordResponse(account.getId(), account.getRole().name())));
             })
             .switchIfEmpty(Mono.just(Result.fail(new AccountNotFoundException(request.getPhoneNumber()))));
     }

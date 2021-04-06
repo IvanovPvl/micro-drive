@@ -4,7 +4,7 @@ import io.microdrive.accounts.ServerResponseUtils;
 import io.microdrive.accounts.config.security.types.Principal;
 import io.microdrive.accounts.service.AccountService;
 import io.microdrive.accounts.service.CheckPasswordService;
-import io.microdrive.accounts.web.types.CheckPasswordRequest;
+import io.microdrive.core.types.accounts.CheckPasswordRequest;
 import io.microdrive.accounts.web.types.CreateAccountRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

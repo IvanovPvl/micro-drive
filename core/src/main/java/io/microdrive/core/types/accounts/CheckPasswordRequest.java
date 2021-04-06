@@ -1,4 +1,4 @@
-package io.microdrive.accounts.web.types;
+package io.microdrive.core.types.accounts;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
