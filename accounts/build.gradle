@@ -1,7 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.4'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'io.freefair.lombok' version '6.0.0-m2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.4.5'
 }
 
 group = 'io.microdrive'
@@ -16,22 +17,17 @@ compileTestJava {
 }
 
 dependencies {
-    compile project(':core')
-    
+    implementation project(':core')
+//    implementation project(':core-security')
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
-    implementation "javax.servlet:javax.servlet-api:4.0.1"
-
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    runtimeOnly "javax.xml.bind:jaxb-api"
+    runtimeOnly "javax.servlet:javax.servlet-api"
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

@@ -17,7 +17,7 @@ public class AccountsConfig {
     }
 
     @Bean
-    public HttpTraceRepository htttpTraceRepository() {
+    public HttpTraceRepository httpTraceRepository() {
         return new InMemoryHttpTraceRepository();
     }
 }

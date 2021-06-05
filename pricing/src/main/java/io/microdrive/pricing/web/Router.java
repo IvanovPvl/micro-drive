@@ -18,7 +18,7 @@ public class Router {
     @Bean
     RouterFunction<ServerResponse> routes() {
         return route()
-            .POST("/calculate", accept(APPLICATION_JSON), priceHandler::calculatePrice)
+            .POST("/api/pricing/calculate", accept(APPLICATION_JSON), priceHandler::calculatePrice)
             .build();
     }
 }

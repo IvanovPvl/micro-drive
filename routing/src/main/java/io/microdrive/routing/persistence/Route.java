@@ -14,9 +14,10 @@ import java.util.List;
 @Document("routes")
 public class Route {
     @MongoId(value = FieldType.OBJECT_ID) private String id;
-
     private List<Point> points;
     private int lengthInMeters;
+    private int travelTimeInSeconds;
+    private int trafficDelayInSeconds;
     @CreatedDate private LocalDateTime createdAt;
 
     @Value

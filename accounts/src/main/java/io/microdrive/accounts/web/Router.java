@@ -13,20 +13,20 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 @RequiredArgsConstructor
 public class Router {
-    private final AccountsHandler accountsHandler;
+    private final ApiHandler apiHandler;
 
     @Bean
     public RouterFunction<ServerResponse> routes() {
         var accounts = route().nest(
             accept(MediaType.APPLICATION_JSON),
             builder -> builder
-                .POST("/api/v1/accounts", accountsHandler::create)
-                .GET("/api/v1/accounts/current", accountsHandler::current)
-                .POST("/api/v1/accounts/check-password", accountsHandler::checkPassword)
+                .POST("/", apiHandler::create)
+                .GET("/current", apiHandler::current)
+                .POST("/check-password", apiHandler::checkPassword)
         ).build();
 
         return route()
-            .path("/", () -> accounts)
+            .path("/api/accounts", () -> accounts)
             .build();
     }
 }

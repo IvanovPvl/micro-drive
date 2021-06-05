@@ -1,7 +1,7 @@
 package io.microdrive.routing.tomtom;
 
-import io.microdrive.core.dto.routing.Point;
-import io.microdrive.core.dto.routing.RouteInfo;
+import io.microdrive.core.types.routing.Point;
+import io.microdrive.core.types.routing.RouteInfo;
 import io.microdrive.routing.RouteProvider;
 import io.microdrive.routing.tomtom.dto.CalculateRouteResponse;
 import io.microdrive.routing.tomtom.dto.Leg;
@@ -22,27 +22,27 @@ public class TomtomRouteProvider implements RouteProvider {
 
     public Mono<RouteInfo> calculateRoute(String locations) {
         String path = String.format("/routing/%s/%s/%s/%s",
-                config.getApiVersion(),
-                "calculateRoute",
-                locations,
-                config.getContentType());
+            config.getApiVersion(),
+            "calculateRoute",
+            locations,
+            config.getContentType());
 
         return tomtomWebClient.get()
-                .uri(uriBuilder -> uriBuilder.path(path)
-                        .queryParam("key", config.getApiKey())
-                        .queryParam("travelMode", config.getTravelMode())
-                        .build())
-                .exchange()
-                .flatMap(r -> r.bodyToMono(CalculateRouteResponse.class))
-                .map(this::convert);
+            .uri(uriBuilder -> uriBuilder.path(path)
+                .queryParam("key", config.getApiKey())
+                .queryParam("travelMode", config.getTravelMode())
+                .build())
+            .retrieve()
+            .bodyToMono(CalculateRouteResponse.class)
+            .map(this::convert);
     }
 
     public Mono<RouteInfo> calculateRoute(Point from, Point to) {
         String locations = String.format(Locale.US, "%.6f,%.6f:%.6f,%.6f",
-                from.getLatitude(),
-                from.getLongitude(),
-                to.getLatitude(),
-                to.getLongitude());
+            from.latitude(),
+            from.longitude(),
+            to.latitude(),
+            to.longitude());
 
         return calculateRoute(locations);
     }
@@ -52,11 +52,11 @@ public class TomtomRouteProvider implements RouteProvider {
         Summary summary = route.getSummary();
         Leg leg = route.getLegs().get(0);
 
-        return RouteInfo.builder()
-                .lengthInMeters(summary.getLengthInMeters())
-                .trafficDelayInSeconds(summary.getTrafficDelayInSeconds())
-                .travelTimeInSeconds(summary.getTravelTimeInSeconds())
-                .points(leg.getPoints())
-                .build();
+        return new RouteInfo(
+            leg.getPoints(),
+            summary.getLengthInMeters(),
+            summary.getTrafficDelayInSeconds(),
+            summary.getTravelTimeInSeconds()
+        );
     }
 }

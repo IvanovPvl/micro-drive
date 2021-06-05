@@ -1,7 +1,7 @@
 package io.microdrive.routing;
 
-import io.microdrive.core.dto.routing.Point;
-import io.microdrive.core.dto.routing.RouteInfo;
+import io.microdrive.core.types.routing.Point;
+import io.microdrive.core.types.routing.RouteInfo;
 import reactor.core.publisher.Mono;
 
 public interface RouteProvider {

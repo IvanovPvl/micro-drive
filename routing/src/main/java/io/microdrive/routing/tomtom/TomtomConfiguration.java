@@ -16,7 +16,7 @@ public class TomtomConfiguration {
     @Bean
     public WebClient tomtomWebClient() {
         return WebClient.builder()
-                .baseUrl(config.getBaseUrl())
-                .build();
+            .baseUrl(config.getBaseUrl())
+            .build();
     }
 }

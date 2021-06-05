@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
 @EnableReactiveMethodSecurity
+@EnableWebFluxSecurity
 public class WebSecurityConfig {
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
@@ -29,8 +29,8 @@ public class WebSecurityConfig {
             .authorizeExchange()
             .pathMatchers(
                 "/actuator/**",
-                "/api/v1/accounts",
-                "/api/v1/accounts/check-password"
+                "/api/accounts",
+                "/api/accounts/check-password"
             ).permitAll()
             .anyExchange().authenticated().and().build();
     }

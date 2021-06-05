@@ -6,3 +6,18 @@ spring:
 
 server:
   port: ${SERVER_PORT:8080}
+
+accounts:
+  service-url: ${ACCOUNTS_SERVICE_URL}
+
+pricing:
+  service-url: ${PRICING_SERVICE_URL}
+
+routing:
+  service-url: ${ROUTING_SERVICE_URL}
+
+drivers-control:
+  service-url: ${DRIVERS_CONTROL_SERVICE_URL}
+
+rides:
+  service-url: ${RIDES_SERVICE_URL}

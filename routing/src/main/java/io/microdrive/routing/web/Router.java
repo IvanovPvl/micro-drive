@@ -17,6 +17,15 @@ public class Router {
 
     @Bean
     RouterFunction<ServerResponse> routes() {
-        return route().POST("/get-route", accept(APPLICATION_JSON), apiHandler::getRoute).build();
+        var routes = route().nest(
+            accept(APPLICATION_JSON),
+            builder -> builder
+                .POST("/", apiHandler::buildRoute)
+                .GET("/{id}", apiHandler::getRoute)
+        ).build();
+
+        return route()
+            .path("/api/routing", () -> routes)
+            .build();
     }
 }
