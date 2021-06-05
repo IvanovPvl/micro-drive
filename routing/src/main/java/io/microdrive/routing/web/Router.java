@@ -20,7 +20,7 @@ public class Router {
         var routes = route().nest(
             accept(APPLICATION_JSON),
             builder -> builder
-                .POST("/", apiHandler::buildRoute)
+                .POST("", apiHandler::buildRoute)
                 .GET("/{id}", apiHandler::getRoute)
         ).build();
 

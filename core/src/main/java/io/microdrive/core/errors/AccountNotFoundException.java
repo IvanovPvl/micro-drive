@@ -1,4 +1,4 @@
-package io.microdrive.accounts.errors;
+package io.microdrive.core.errors;
 
 public class AccountNotFoundException extends RuntimeException {
     public AccountNotFoundException(String phoneNumber) {

@@ -20,7 +20,7 @@ public class Router {
         var accounts = route().nest(
             accept(MediaType.APPLICATION_JSON),
             builder -> builder
-                .POST("/", apiHandler::create)
+                .POST("", apiHandler::create)
                 .GET("/current", apiHandler::current)
                 .POST("/check-password", apiHandler::checkPassword)
         ).build();

@@ -1,11 +1,11 @@
 package io.microdrive.accounts.web;
 
 import io.microdrive.accounts.ServerResponseUtils;
-import io.microdrive.accounts.config.security.types.Principal;
 import io.microdrive.accounts.service.AccountService;
 import io.microdrive.accounts.service.CheckPasswordService;
 import io.microdrive.core.types.accounts.CheckPasswordRequest;
 import io.microdrive.accounts.web.types.CreateAccountRequest;
+import io.microdrive.coresecurity.types.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;

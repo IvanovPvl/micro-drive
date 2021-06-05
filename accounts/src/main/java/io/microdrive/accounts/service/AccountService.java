@@ -1,7 +1,7 @@
 package io.microdrive.accounts.service;
 
-import io.microdrive.accounts.Result;
-import io.microdrive.accounts.errors.AccountAlreadyExistsException;
+import io.microdrive.core.Result;
+import io.microdrive.core.errors.AccountAlreadyExistsException;
 import io.microdrive.accounts.persistence.Account;
 import io.microdrive.accounts.repository.AccountRepository;
 import io.microdrive.accounts.web.types.CreateAccountRequest;

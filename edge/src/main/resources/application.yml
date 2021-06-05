@@ -21,3 +21,13 @@ drivers-control:
 
 rides:
   service-url: ${RIDES_SERVICE_URL}
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          reactive:
+            function:
+              client:
+                ExchangeFunctions: TRACE

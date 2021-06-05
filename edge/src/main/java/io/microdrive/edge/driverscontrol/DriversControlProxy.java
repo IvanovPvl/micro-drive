@@ -1,5 +1,6 @@
 package io.microdrive.edge.driverscontrol;
 
+import io.microdrive.core.errors.FreeDriverNotFoundException;
 import io.microdrive.core.types.driverscontrol.AddToFreeRequest;
 import io.microdrive.core.types.driverscontrol.FindFreeResponse;
 import io.microdrive.edge.driverscontrol.config.DriversControlConfigurationProperties;
@@ -17,7 +18,9 @@ public class DriversControlProxy {
     public Mono<FindFreeResponse> findFree() {
         return webClient.post()
             .uri(properties.getServiceUrl() + "/find-free")
-            .exchangeToMono(response -> response.bodyToMono(FindFreeResponse.class));
+            .retrieve()
+            .onStatus(httpStatus -> httpStatus.value() == 404, r -> Mono.error(new FreeDriverNotFoundException()))
+            .bodyToMono(FindFreeResponse.class);
     }
 
     public Mono<Void> addToFree(String driverId) {

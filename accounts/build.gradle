@@ -8,17 +8,17 @@ plugins {
 group = 'io.microdrive'
 version = '0.0.1-SNAPSHOT'
 
-compileJava {
-    options.compilerArgs += ["--enable-preview"]
-}
-
-compileTestJava {
-    options.compilerArgs += ["--enable-preview"]
-}
+//compileJava {
+//    options.compilerArgs += ["--enable-preview"]
+//}
+//
+//compileTestJava {
+//    options.compilerArgs += ["--enable-preview"]
+//}
 
 dependencies {
     implementation project(':core')
-//    implementation project(':core-security')
+    implementation project(':core-security')
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'

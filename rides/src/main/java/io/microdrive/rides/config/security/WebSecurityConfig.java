@@ -1,4 +1,4 @@
-package io.microdrive.accounts.config.security;
+package io.microdrive.rides.config.security;
 
 import io.microdrive.coresecurity.AuthenticationManager;
 import io.microdrive.coresecurity.SecurityContextRepository;
@@ -20,8 +20,6 @@ public class WebSecurityConfig {
 
     private static final String[] WHITE_LIST = {
         "/actuator/**",
-        "/api/accounts",
-        "/api/accounts/check-password"
     };
 
     @Bean

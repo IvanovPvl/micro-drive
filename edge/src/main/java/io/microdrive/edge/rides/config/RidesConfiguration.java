@@ -19,6 +19,7 @@ public class RidesConfiguration {
         var routes = route().nest(
             accept(MediaType.APPLICATION_JSON),
             builder -> builder
+                .POST("", apiHandler::create)
                 .POST("/get-info", apiHandler::getInfo)
         ).build();
 

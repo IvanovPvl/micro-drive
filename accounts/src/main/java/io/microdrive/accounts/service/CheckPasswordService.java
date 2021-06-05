@@ -1,7 +1,7 @@
 package io.microdrive.accounts.service;
 
-import io.microdrive.accounts.Result;
-import io.microdrive.accounts.errors.AccountNotFoundException;
+import io.microdrive.core.Result;
+import io.microdrive.core.errors.AccountNotFoundException;
 import io.microdrive.core.types.accounts.CheckPasswordRequest;
 import io.microdrive.core.types.accounts.CheckPasswordResponse;
 import lombok.RequiredArgsConstructor;

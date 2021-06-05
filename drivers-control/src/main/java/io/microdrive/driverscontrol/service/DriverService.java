@@ -1,7 +1,7 @@
 package io.microdrive.driverscontrol.service;
 
 import io.microdrive.core.types.driverscontrol.FindFreeResponse;
-import io.microdrive.driverscontrol.errors.FreeDriverNotFoundException;
+import io.microdrive.core.errors.FreeDriverNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ReactiveSetOperations;
 import org.springframework.stereotype.Service;

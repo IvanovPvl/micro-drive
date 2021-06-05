@@ -1,4 +1,4 @@
-package io.microdrive.accounts;
+package io.microdrive.core;
 
 public class Result<T> {
     private final Throwable left;

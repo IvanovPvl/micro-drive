@@ -2,7 +2,7 @@ package io.microdrive.driverscontrol.web;
 
 import io.microdrive.core.dto.errors.ErrorResponse;
 import io.microdrive.core.types.driverscontrol.AddToFreeRequest;
-import io.microdrive.driverscontrol.errors.FreeDriverNotFoundException;
+import io.microdrive.core.errors.FreeDriverNotFoundException;
 import io.microdrive.driverscontrol.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -33,6 +33,7 @@ class ApiHandler {
     }
 
     Mono<ServerResponse> addToFree(ServerRequest request) {
+        // TODO: get id from security context
         val result = request.bodyToMono(AddToFreeRequest.class)
             .map(AddToFreeRequest::driverId)
             .flatMap(driverService::addToFree);
