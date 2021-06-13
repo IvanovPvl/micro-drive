@@ -13,6 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import static io.microdrive.core.Result.fail;
+import static io.microdrive.core.Result.success;
+import static reactor.core.publisher.Mono.just;
+
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -27,10 +31,10 @@ public class AccountService {
             .flatMap(a -> {
                 if (request.getRole() == Account.Role.DRIVER) {
                     return carService.create(request.getCar(), a.getId())
-                        .flatMap(car -> Mono.just(Result.success(new CreateAccountResponse(a, car))));
+                        .flatMap(car -> just(success(new CreateAccountResponse(a, car))));
                 }
 
-                return Mono.just(Result.success(new CreateAccountResponse(a)));
+                return just(success(new CreateAccountResponse(a)));
             })
             .onErrorResume(throwable -> onError(throwable, request.getPhoneNumber()));
     }
@@ -46,8 +50,8 @@ public class AccountService {
 
     private Mono<Result<CreateAccountResponse>> onError(Throwable throwable, String phoneNumber) {
         if (throwable instanceof DuplicateKeyException) {
-            return Mono.just(Result.fail(new AccountAlreadyExistsException(phoneNumber)));
+            return just(fail(new AccountAlreadyExistsException(phoneNumber)));
         }
-        return Mono.just(Result.fail(throwable));
+        return just(fail(throwable));
     }
 }

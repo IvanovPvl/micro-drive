@@ -9,6 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import static io.microdrive.core.Result.fail;
+import static io.microdrive.core.Result.success;
+import static reactor.core.publisher.Mono.just;
+
 @Service
 @RequiredArgsConstructor
 public class CheckPasswordService {
@@ -16,13 +20,13 @@ public class CheckPasswordService {
     private final PasswordEncoder passwordEncoder;
 
     public Mono<Result<?>> check(CheckPasswordRequest request) {
-        return accountService.findByPhoneNumber(request.getPhoneNumber())
+        return accountService.findByPhoneNumber(request.phoneNumber())
             .flatMap(account -> {
-                if (!passwordEncoder.matches(request.getPassword(), account.getPassword())) {
-                    return Mono.just(Result.fail(new AccountNotFoundException(request.getPhoneNumber())));
+                if (!passwordEncoder.matches(request.password(), account.getPassword())) {
+                    return just(fail(new AccountNotFoundException(request.phoneNumber())));
                 }
-                return Mono.just(Result.success(new CheckPasswordResponse(account.getId(), account.getRole().name())));
+                return just(success(new CheckPasswordResponse(account.getId(), account.getRole().name())));
             })
-            .switchIfEmpty(Mono.just(Result.fail(new AccountNotFoundException(request.getPhoneNumber()))));
+            .switchIfEmpty(just(fail(new AccountNotFoundException(request.phoneNumber()))));
     }
 }

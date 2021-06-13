@@ -7,6 +7,12 @@ spring:
 server:
   port: ${SERVER_PORT:8080}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 accounts:
   service-url: ${ACCOUNTS_SERVICE_URL}
 
@@ -21,6 +27,46 @@ drivers-control:
 
 rides:
   service-url: ${RIDES_SERVICE_URL}
+
+resilience4j.circuitbreaker:
+  instances:
+    pricing:
+      registerHealthIndicator: true
+      slidingWindowSize: 100
+    rides:
+      registerHealthIndicator: true
+      slidingWindowSize: 100
+    routing:
+      registerHealthIndicator: true
+      slidingWindowSize: 100
+    drivers-control:
+      registerHealthIndicator: true
+      slidingWindowSize: 100
+      ignoreExceptions:
+        - io.microdrive.core.errors.FreeDriverNotFoundException
+      recordExceptionsAsSuccess:
+        - io.microdrive.core.errors.FreeDriverNotFoundException
+    accounts:
+      registerHealthIndicator: true
+      slidingWindowSize: 100
+
+resilience4j.timelimiter:
+  instances:
+    pricing:
+      timeoutDuration: 200
+      cancelRunningFuture: true
+    rides:
+      timeoutDuration: 200
+      cancelRunningFuture: true
+    routing:
+      timeoutDuration: 200
+      cancelRunningFuture: true
+    drivers-control:
+      timeoutDuration: 200
+      cancelRunningFuture: true
+    accounts:
+      timeoutDuration: 200
+      cancelRunningFuture: true
 
 logging:
   level:

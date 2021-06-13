@@ -1,7 +1,7 @@
 package io.microdrive.pricing.web;
 
-import io.microdrive.core.dto.pricing.PricingInfo;
-import io.microdrive.core.dto.pricing.PricingRequest;
+import io.microdrive.core.types.pricing.PricingInfo;
+import io.microdrive.core.types.pricing.PricingRequest;
 import io.microdrive.pricing.service.PriceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -21,7 +21,7 @@ class ApiHandler {
     Mono<ServerResponse> calculatePrice(ServerRequest request) {
         Mono<PricingInfo> info = request.bodyToMono(PricingRequest.class)
                 .map(priceService::calculate)
-                .map(price -> PricingInfo.builder().price(price).build());
+                .map(PricingInfo::new);
 
         return ok().body(info, PricingInfo.class);
     }

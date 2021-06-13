@@ -6,19 +6,22 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.microdrive.core.types.accounts.CheckPasswordResponse;
-import io.microdrive.edge.types.Token;
 import io.microdrive.edge.config.security.SecurityConfigurationProperties;
+import io.microdrive.edge.types.Token;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.security.KeyStore;
-import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
+import static java.time.Instant.now;
+import static java.util.Date.from;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TokenService {
@@ -38,19 +41,19 @@ public class TokenService {
             jwtBuilder.signWith(key, SignatureAlgorithm.RS256);
             jwtParser.setSigningKey(key);
         } catch (Throwable ex) {
-            // TODO: log ex
+            log.error("Exception during initialize: ", ex);
         }
     }
 
     public Token create(CheckPasswordResponse response) {
-        var issuedAt = Instant.now();
+        var issuedAt = now();
         var expiredAt = issuedAt.plus(1, ChronoUnit.DAYS);
         var accessToken = jwtBuilder
             .setHeaderParam("typ", "JWT")
-            .setSubject(response.getAccountId())
-            .claim("role", response.getRole())
-            .setIssuedAt(Date.from(issuedAt))
-            .setExpiration(Date.from(expiredAt))
+            .setSubject(response.accountId())
+            .claim("role", response.role())
+            .setIssuedAt(from(issuedAt))
+            .setExpiration(from(expiredAt))
             .compact();
 
         return new Token(accessToken, issuedAt.toEpochMilli(), expiredAt.toEpochMilli());

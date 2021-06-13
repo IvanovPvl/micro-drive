@@ -1,8 +1,9 @@
 package io.microdrive.edge.rides;
 
 import io.microdrive.core.Result;
-import io.microdrive.core.dto.pricing.PricingRequest;
+import io.microdrive.core.types.pricing.PricingRequest;
 import io.microdrive.core.types.rides.CreateRideRequest;
+import io.microdrive.core.types.rides.UpdateRideRequest;
 import io.microdrive.core.types.routing.BuildRouteRequest;
 import io.microdrive.edge.config.security.types.Principal;
 import io.microdrive.edge.driverscontrol.DriversControlProxy;
@@ -36,7 +37,7 @@ public class RidesService {
                 just(routeInfo),
                 pricingProxy.calculatePrice(new PricingRequest(routeInfo.lengthInMeters())))
             )
-            .map(tuple -> success(new GetInfoResponse(tuple.getT1(), tuple.getT2().getPrice())))
+            .map(tuple -> success(new GetInfoResponse(tuple.getT1(), tuple.getT2().price())))
             .onErrorResume(throwable -> just(fail(throwable)));
     }
 
@@ -49,6 +50,14 @@ public class RidesService {
                 ridesProxy.create(new CreateRideRequest(request.routeId(), t.getT2().driverId(), request.price()), t.getT1()))
             )
             .map(t -> success(new NewRideResponse(t.getT2().id(), t.getT1())))
+            .onErrorResume(throwable -> just(fail(throwable)));
+    }
+
+    public Mono<Result<Void>> update(String id, UpdateRideRequest request) {
+        return getContext()
+            .map(securityContext -> (Principal) securityContext.getAuthentication().getPrincipal())
+            .flatMap(p -> ridesProxy.update(id, request, p))
+            .map(Result::success)
             .onErrorResume(throwable -> just(fail(throwable)));
     }
 }

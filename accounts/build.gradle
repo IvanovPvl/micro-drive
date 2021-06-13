@@ -8,14 +8,6 @@ plugins {
 group = 'io.microdrive'
 version = '0.0.1-SNAPSHOT'
 
-//compileJava {
-//    options.compilerArgs += ["--enable-preview"]
-//}
-//
-//compileTestJava {
-//    options.compilerArgs += ["--enable-preview"]
-//}
-
 dependencies {
     implementation project(':core')
     implementation project(':core-security')
@@ -25,6 +17,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Jackson 2.12 (need for records)
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
 
     runtimeOnly "javax.xml.bind:jaxb-api"
     runtimeOnly "javax.servlet:javax.servlet-api"

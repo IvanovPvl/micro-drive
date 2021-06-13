@@ -4,6 +4,8 @@ import io.microdrive.core.types.accounts.CheckPasswordRequest;
 import io.microdrive.edge.accounts.AccountsProxy;
 import io.microdrive.edge.service.TokenService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -20,13 +22,28 @@ import static org.springframework.web.reactive.function.server.ServerResponse.st
 @EnableConfigurationProperties(AccountsConfigurationProperties.class)
 public class AccountsConfiguration {
     @Bean
+    public ReactiveCircuitBreaker accountsCircuitBreaker(ReactiveCircuitBreakerFactory<?, ?> cbf) {
+        return cbf.create("accounts");
+    }
+
+    @Bean
     public RouteLocator accountsProxyRouting(
         RouteLocatorBuilder builder,
         AccountsConfigurationProperties configuration
     ) {
         return builder.routes()
-            .route(r -> r.path("/api/accounts/current").and().method("GET").uri(configuration.getServiceUrl()))
-            .route(r -> r.path("/api/accounts").and().method("POST").uri(configuration.getServiceUrl()))
+            .route(r -> r.path("/api/accounts/current")
+                .and()
+                .method("GET")
+                .filters(f -> f.circuitBreaker(c -> c.setName("accounts")))
+                .uri(configuration.getServiceUrl())
+            )
+            .route(r -> r.path("/api/accounts")
+                .and()
+                .method("POST")
+                .filters(f -> f.circuitBreaker(c -> c.setName("accounts")))
+                .uri(configuration.getServiceUrl())
+            )
             .build();
     }
 

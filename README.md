@@ -1,3 +1,3 @@
 # micro-drive
 
-WIP
+![Micro Drive](./micro-drive.png)

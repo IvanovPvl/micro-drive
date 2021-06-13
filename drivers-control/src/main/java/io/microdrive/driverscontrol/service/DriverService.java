@@ -7,6 +7,8 @@ import org.springframework.data.redis.core.ReactiveSetOperations;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import static reactor.core.publisher.Mono.error;
+
 @Service
 @RequiredArgsConstructor
 public class DriverService {
@@ -32,6 +34,6 @@ public class DriverService {
     public Mono<FindFreeResponse> findFree() {
         return setOperations.pop(FREE_DRIVERS)
             .map(FindFreeResponse::new)
-            .switchIfEmpty(Mono.error(new FreeDriverNotFoundException()));
+            .switchIfEmpty(error(new FreeDriverNotFoundException()));
     }
 }
